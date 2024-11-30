@@ -1,0 +1,2365 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+\frontmatter
+
+\mainmatter
+\chapter{Visualisasi dan Perhitungan Geometri dengan EMT}\label{visualisasi-dan-perhitungan-geometri-dengan-emt}
+
+Euler menyediakan beberapa fungsi untuk melakukan visualisasi dan perhitungan geometri, baik secara numerik maupun analitik (seperti biasanya tentunya, menggunakan Maxima). Fungsi-fungsi untuk visualisasi dan perhitungan geometeri tersebut disimpan di dalam file program ``geometry.e'', sehingga file tersebut harus dipanggil sebelum menggunakan fungsi-fungsi atau perintah-perintah untuk geometri.
+
+\textgreater load geometry
+
+\begin{verbatim}
+Numerical and symbolic geometry.
+\end{verbatim}
+
+\section{Fungsi-fungsi Geometri}\label{fungsi-fungsi-geometri}
+
+Fungsi-fungsi untuk Menggambar Objek Geometri:
+
+defaultd:=textheight()*1.5: nilai asli untuk parameter d\\
+setPlotrange(x1,x2,y1,y2): menentukan rentang x dan y pada bidang koordinat\\
+setPlotRange(r): pusat bidang koordinat (0,0) dan batas-batas sumbu-x dan y adalah -r sd r\\
+plotPoint (P, ``P''): menggambar titik P dan diberi label ``P''\\
+plotSegment (A,B, ``AB'', d): menggambar ruas garis AB, diberi label ``AB'' sejauh d\\
+plotLine (g, ``g'', d): menggambar garis g diberi label ``g'' sejauh d\\
+plotCircle (c,``c'',v,d): Menggambar lingkaran c dan diberi label ``c''\\
+plotLabel (label, P, V, d): menuliskan label pada posisi P
+
+Fungsi-fungsi Geometri Analitik (numerik maupun simbolik):
+
+turn(v, phi): memutar vektor v sejauh phi\\
+turnLeft(v): memutar vektor v ke kiri\\
+turnRight(v): memutar vektor v ke kanan\\
+normalize(v): normal vektor v\\
+crossProduct(v, w): hasil kali silang vektorv dan w.\\
+lineThrough(A, B): garis melalui A dan B, hasilnya {[}a,b,c{]} sdh. ax+by=c.\\
+lineWithDirection(A,v): garis melalui A searah vektor v\\
+getLineDirection(g): vektor arah (gradien) garis g\\
+getNormal(g): vektor normal (tegak lurus) garis g\\
+getPointOnLine(g): titik pada garis g\\
+perpendicular(A, g): garis melalui A tegak lurus garis g\\
+parallel (A, g): garis melalui A sejajar garis g\\
+lineIntersection(g, h): titik potong garis g dan h\\
+projectToLine(A, g): proyeksi titik A pada garis g\\
+distance(A, B): jarak titik A dan B\\
+distanceSquared(A, B): kuadrat jarak A dan B\\
+quadrance(A, B): kuadrat jarak A dan B\\
+areaTriangle(A, B, C): luas segitiga ABC\\
+computeAngle(A, B, C): besar sudut \textless ABC\\
+angleBisector(A, B, C): garis bagi sudut \textless ABC\\
+circleWithCenter (A, r): lingkaran dengan pusat A dan jari-jari r\\
+getCircleCenter(c): pusat lingkaran c\\
+getCircleRadius(c): jari-jari lingkaran c\\
+circleThrough(A,B,C): lingkaran melalui A, B, C\\
+middlePerpendicular(A, B): titik tengah AB\\
+lineCircleIntersections(g, c): titik potong garis g dan lingkran c\\
+circleCircleIntersections (c1, c2): titik potong lingkaran c1 dan c2\\
+planeThrough(A, B, C): bidang melalui titik A, B, C
+
+Fungsi-fungsi Khusus Untuk Geometri Simbolik:
+
+getLineEquation (g,x,y): persamaan garis g dinyatakan dalam x dan y\\
+getHesseForm (g,x,y,A): bentuk Hesse garis g dinyatakan dalam x dan y dengan titik A pada\\
+sisi positif (kanan/atas) garis\\
+quad(A,B): kuadrat jarak AB\\
+spread(a,b,c): Spread segitiga dengan panjang sisi-sisi a,b,c, yakni sin(alpha)\^{}2 dengan\\
+alpha sudut yang menghadap sisi a.\\
+crosslaw(a,b,c,sa): persamaan 3 quads dan 1 spread pada segitiga dengan panjang sisi a, b, c.\\
+triplespread(sa,sb,sc): persamaan 3 spread sa,sb,sc yang memebntuk suatu segitiga\\
+doublespread(sa): Spread sudut rangkap Spread 2*phi, dengan sa=sin(phi)\^{}2 spread a.
+
+\section{Contoh 1: Luas, Lingkaran Luar, Lingkaran Dalam Segitiga}\label{contoh-1-luas-lingkaran-luar-lingkaran-dalam-segitiga}
+
+Untuk menggambar objek-objek geometri, langkah pertama adalah menentukan rentang sumbu-sumbu koordinat. Semua objek geometri akan digambar pada satu bidang koordinat, sampai didefinisikan bidang koordinat yang baru.
+
+\textgreater setPlotRange(-0.5,2.5,-0.5,2.5); // mendefinisikan bidang koordinat baru
+
+Sekarang tetapkan tiga titik dan plotlah.
+
+\textgreater A={[}1,0{]}; plotPoint(A,``A''); // definisi dan gambar tiga titik
+
+\textgreater B={[}0,1{]}; plotPoint(B,``B'');
+
+\textgreater C={[}2,2{]}; plotPoint(C,``C'');
+
+Lalu tiga segmen.
+
+\textgreater plotSegment(A,B,``c''); // c=AB
+
+\textgreater plotSegment(B,C,``a''); // a=BC
+
+\textgreater plotSegment(A,C,``b''); // b=AC
+
+Fungsi geometri mencakup fungsi untuk membuat garis dan lingkaran. Format untuk garis adalah {[}a,b,c{]}, yang merepresentasikan garis dengan persamaan ax+by=c.
+
+\textgreater lineThrough(B,C) // garis yang melalui B dan C
+
+\begin{verbatim}
+[-1,  2,  2]
+\end{verbatim}
+
+Hitunglah garis tegak lurus melalui A pada BC.
+
+\textgreater h=perpendicular(A,lineThrough(B,C)); // garis h tegak lurus BC melalui A
+
+Dan persimpangannya dengan BC.
+
+\textgreater D=lineIntersection(h,lineThrough(B,C)); // D adalah titik potong h dan BC
+
+Gambarkan itu.
+
+\textgreater plotPoint(D,value=1); // koordinat D ditampilkan
+
+\textgreater aspect(1); plotSegment(A,D): // tampilkan semua gambar hasil plot\ldots()
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-001.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-001.png}
+\end{figure}
+
+Hitung luas ABC:
+
+\[L_{\triangle ABC}= \frac{1}{2}AD.BC.\]\textgreater norm(A-D)*norm(B-C)/2 // AD=norm(A-D), BC=norm(B-C)
+
+\begin{verbatim}
+1.5
+\end{verbatim}
+
+Bandingkan dengan rumus determinan.
+
+\textgreater areaTriangle(A,B,C) // hitung luas segitiga langusng dengan fungsi
+
+\begin{verbatim}
+1.5
+\end{verbatim}
+
+Cara lain menghitung luas segitigas ABC:
+
+\textgreater distance(A,D)*distance(B,C)/2
+
+\begin{verbatim}
+1.5
+\end{verbatim}
+
+Sudut di C.
+
+\textgreater degprint(computeAngle(B,C,A))
+
+\begin{verbatim}
+36°52'11.63''
+\end{verbatim}
+
+Sekarang lingkaran luar segitiga.
+
+\textgreater c=circleThrough(A,B,C); // lingkaran luar segitiga ABC
+
+\textgreater R=getCircleRadius(c); // jari2 lingkaran luar
+
+\textgreater O=getCircleCenter(c); // titik pusat lingkaran c
+
+\textgreater plotPoint(O,``O''); // gambar titik ``O''
+
+\textgreater plotCircle(c,``Lingkaran luar segitiga ABC''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-003.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-003.png}
+\end{figure}
+
+Tampilkan koordinat titik pusat dan jari-jari lingkaran luar.
+
+\textgreater O, R
+
+\begin{verbatim}
+[1.16667,  1.16667]
+1.17851130198
+\end{verbatim}
+
+Sekarang akan digambar lingkaran dalam segitiga ABC. Titik pusat lingkaran dalam adalah titik potong garis-garis bagi sudut.
+
+\textgreater l=angleBisector(A,C,B); // garis bagi \textless ACB
+
+\textgreater g=angleBisector(C,A,B); // garis bagi \textless CAB
+
+\textgreater P=lineIntersection(l,g) // titik potong kedua garis bagi sudut
+
+\begin{verbatim}
+[0.86038,  0.86038]
+\end{verbatim}
+
+Tambahkan semuanya ke dalam alur cerita.
+
+\textgreater color(5); plotLine(l); plotLine(g); color(1); // gambar kedua garis bagi sudut
+
+\textgreater plotPoint(P,``P''); // gambar titik potongnya
+
+\textgreater r=norm(P-projectToLine(P,lineThrough(A,B))) // jari-jari lingkaran dalam
+
+\begin{verbatim}
+0.509653732104
+\end{verbatim}
+
+\textgreater plotCircle(circleWithCenter(P,r),``Lingkaran dalam segitiga ABC''): // gambar lingkaran dalam
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-004.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-004.png}
+\end{figure}
+
+\textgreater\&remvalue();
+
+\section{Latihan}\label{latihan}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Tentukan ketiga titik singgung lingkaran dalam dengan sisi-sisi segitiga ABC.
+\end{enumerate}
+
+\textgreater L=circleWithCenter(P,r);
+
+\textgreater N1=lineThrough(A,B); // sisi AB
+
+\textgreater N2=lineThrough(B,C); // sisi AB
+
+\textgreater N3=lineThrough(C,A); // sisi CA
+
+\textgreater C1=lineCircleIntersections(N1,L),
+
+\begin{verbatim}
+[0.5,  0.5]
+\end{verbatim}
+
+titik singgung sisi AB \& lingkaran dalam
+
+\textgreater C2=lineCircleIntersections(N2,L),
+
+\begin{verbatim}
+[0.632456,  1.31623]
+\end{verbatim}
+
+titik singgung sisi BC \& lingkaran dalam
+
+\textgreater C3=lineCircleIntersections(N3,L),
+
+\begin{verbatim}
+[1.31623,  0.632456]
+\end{verbatim}
+
+titik singgung sisi CA \& lingkaran dalam
+
+\textgreater plotPoint(C1,``F''); plotPoint(C2,``G''); plotPoint(C3,``H''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-005.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-005.png}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Gambar segitiga dengan titik-titik sudut ketiga titik singgung tersebut. Merupakan segitiga apakah itu?
+\end{enumerate}
+
+\textgreater color(2); plotSegment(C1,C2,``f'');
+
+\textgreater color(2); plotSegment(C2,C3,``g'');
+
+\textgreater color(2); plotSegment(C3,C1,``h''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-006.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-006.png}
+\end{figure}
+
+\textgreater norm(C1-C2)
+
+\begin{verbatim}
+0.826905214631
+\end{verbatim}
+
+panjang f
+
+\textgreater norm(C2-C3)
+
+\begin{verbatim}
+0.966999966873
+\end{verbatim}
+
+panjang g
+
+\textgreater norm(C3-C1)
+
+\begin{verbatim}
+0.826905214631
+\end{verbatim}
+
+panjang h
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Hitung luas segitiga tersebut.
+\end{enumerate}
+
+\textgreater F=C1
+
+\begin{verbatim}
+[0.5,  0.5]
+\end{verbatim}
+
+\textgreater G=C2
+
+\begin{verbatim}
+[0.632456,  1.31623]
+\end{verbatim}
+
+\textgreater H=C3
+
+\begin{verbatim}
+[1.31623,  0.632456]
+\end{verbatim}
+
+Luas segitiga dengan fungsi langsung
+
+\textgreater areaTriangle(F,G,H)
+
+\begin{verbatim}
+0.324341649025
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Tunjukkan bahwa garis bagi sudut yang ke tiga juga melalui titik pusat lingkaran dalam.
+\end{enumerate}
+
+garis bagi \textless ACB dan \textless ABC
+
+\textgreater b=angleBisector(A,C,B);
+
+\textgreater u=angleBisector(A,B,C);
+
+titik potong kedua garis bagi
+
+\textgreater h=lineIntersection(b,u)
+
+\begin{verbatim}
+[0.86038,  0.86038]
+\end{verbatim}
+
+gambar garis bagi sudut yang ketiga
+
+\textgreater color(5); plotLine(u):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-007.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-007.png}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Gambar jari-jari lingkaran dalam.
+\end{enumerate}
+
+\textgreater r=norm(P-projectToLine(P,lineThrough(A,B)))
+
+\begin{verbatim}
+0.509653732104
+\end{verbatim}
+
+\textgreater color(2); plotSegment(P,C3,``r''); color(1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-008.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-008.png}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Hitung luas lingkaran luar dan luas lingkaran dalam segitiga ABC. Adakah hubungan antara luas kedua lingkaran tersebut dengan luas segitiga ABC?
+\end{enumerate}
+
+\textgreater ci=circleThrough(F,G,H);
+
+\textgreater s=getCircleRadius(ci)
+
+\begin{verbatim}
+0.509653732104
+\end{verbatim}
+
+lingkaran luar
+
+\textgreater L1=pi*R\^{}2
+
+\begin{verbatim}
+4.36332312999
+\end{verbatim}
+
+lingkaran dalam
+
+\textgreater L2=pi*r\^{}2
+
+\begin{verbatim}
+0.81601903655
+\end{verbatim}
+
+\chapter{Contoh 2: Geometri Smbolik}\label{contoh-2-geometri-smbolik}
+
+Kita dapat menghitung geometri yang tepat dan simbolik menggunakan Maxima
+
+File geometry.e menyediakan fungsi yang sama (dan lebih banyak lagi) di Maxima. Akan tetapi, kita sekarang dapat menggunakan perhitungan simbolik.
+
+\textgreater A \&= {[}1,0{]}; B \&= {[}0,1{]}; C \&= {[}2,2{]}; // menentukan tiga titik A, B, C
+
+Fungsi untuk garis dan lingkaran bekerja seperti fungsi Euler, tetapi menyediakan perhitungan simbolis.
+
+\textgreater c \&= lineThrough(B,C) // c=BC
+
+\begin{verbatim}
+                             [- 1, 2, 2]
+\end{verbatim}
+
+Kita dapat memperoleh persamaan garis dengan mudah.
+
+\textgreater\$getLineEquation(c,x,y), \$solve(\%,y) \textbar{} expand // persamaan garis c
+
+\[2\,y-x=2\] \[\left[ y=\frac{x}{2}+1 \right]\]\textgreater\$getLineEquation(lineThrough({[}x1,y1{]},{[}x2,y2{]}),x,y), \$solve(\%,y) // persamaan garis melalui(x1, y1) dan (x2, y2)
+
+\[x\,\left({\it y_1}-{\it y_2}\right)+\left({\it x_2}-{\it x_1}\right)\,y={\it x_1}\,\left({\it y_1}-{\it y_2}\right)+\left({\it x_2}-{\it x_1}\right)\,{\it y_1}\] \[\left[ y=\frac{-\left({\it x_1}-x\right)\,{\it y_2}-\left(x-{\it x_2}\right)\,{\it y_1}}{{\it x_2}-{\it x_1}} \right]\]\textgreater\$getLineEquation(lineThrough(A,{[}x1,y1{]}),x,y) // persamaan garis melalui A dan (x1, y1)
+
+\[\left({\it x_1}-1\right)\,y-x\,{\it y_1}=-{\it y_1}\]\textgreater h \&= perpendicular(A,lineThrough(B,C)) // h melalui A tegak lurus BC
+
+\begin{verbatim}
+                              [2, 1, 2]
+\end{verbatim}
+
+\textgreater Q \&= lineIntersection(c,h) // Q titik potong garis c=BC dan h
+
+\begin{verbatim}
+                                 2  6
+                                [-, -]
+                                 5  5
+\end{verbatim}
+
+\textgreater\$projectToLine(A,lineThrough(B,C)) // proyeksi A pada BC
+
+\[\left[ \frac{2}{5} , \frac{6}{5} \right]\]\textgreater\$distance(A,Q) // jarak AQ
+
+\[\frac{3}{\sqrt{5}}\]\textgreater cc \&= circleThrough(A,B,C); \$cc // (titik pusat dan jari-jari) lingkaran melalui A, B, C
+
+\[\left[ \frac{7}{6} , \frac{7}{6} , \frac{5}{3\,\sqrt{2}} \right]\]\textgreater r\&=getCircleRadius(cc); \$r , \$float(r) // tampilkan nilai jari-jari
+
+\[\frac{5}{3\,\sqrt{2}}\] \[1.178511301977579\]\textgreater\$computeAngle(A,C,B) // nilai \textless ACB
+
+\[\arccos \left(\frac{4}{5}\right)\]\textgreater\$solve(getLineEquation(angleBisector(A,C,B),x,y),y){[}1{]} // persamaan garis bagi \textless ACB
+
+\[y=x\]\textgreater P \&= lineIntersection(angleBisector(A,C,B),angleBisector(C,B,A)); \$P // titik potong 2 garis bagi sudut
+
+\[\left[ \frac{\sqrt{2}\,\sqrt{5}+2}{6} , \frac{\sqrt{2}\,\sqrt{5}+2}{6} \right]\]\textgreater P() // hasilnya sama dengan perhitungan sebelumnya
+
+\begin{verbatim}
+[0.86038,  0.86038]
+\end{verbatim}
+
+\section{Garis dan Lingkaran yang Berpotongan}\label{garis-dan-lingkaran-yang-berpotongan}
+
+Tentu saja, kita juga dapat membuat garis berpotongan dengan lingkaran, dan lingkaran dengan lingkaran.
+
+\textgreater A \&:= {[}1,0{]}; c=circleWithCenter(A,4);
+
+\textgreater B \&:= {[}1,2{]}; C \&:= {[}2,1{]}; l=lineThrough(B,C);
+
+\textgreater setPlotRange(5); plotCircle(c); plotLine(l);
+
+Perpotongan garis dengan lingkaran menghasilkan dua titik dan jumlah titik perpotongan.
+
+\textgreater\{P1,P2,f\}=lineCircleIntersections(l,c);
+
+\textgreater P1, P2, f
+
+\begin{verbatim}
+[4.64575,  -1.64575]
+[-0.645751,  3.64575]
+2
+\end{verbatim}
+
+\textgreater plotPoint(P1); plotPoint(P2):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-022.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-022.png}
+\end{figure}
+
+Sama halnya di Maxima.
+
+\textgreater c \&= circleWithCenter(A,4) // lingkaran dengan pusat A jari-jari 4
+
+\begin{verbatim}
+                              [1, 0, 4]
+\end{verbatim}
+
+\textgreater l \&= lineThrough(B,C) // garis l melalui B dan C
+
+\begin{verbatim}
+                              [1, 1, 3]
+\end{verbatim}
+
+\textgreater\$lineCircleIntersections(l,c) \textbar{} radcan, // titik potong lingkaran c dan garis l
+
+\[\left[ \left[ \sqrt{7}+2 , 1-\sqrt{7} \right]  , \left[ 2-\sqrt{7}, \sqrt{7}+1 \right]  \right]\]Akan ditunjukkan bahwa sudut-sudut yang menghadap bsuusr yang sama adalah sama besar.
+
+\textgreater C=A+normalize({[}-2,-3{]})*4; plotPoint(C); plotSegment(P1,C); plotSegment(P2,C);
+
+\textgreater degprint(computeAngle(P1,C,P2))
+
+\begin{verbatim}
+69°17'42.68''
+\end{verbatim}
+
+\textgreater C=A+normalize({[}-4,-3{]})*4; plotPoint(C); plotSegment(P1,C); plotSegment(P2,C);
+
+\textgreater degprint(computeAngle(P1,C,P2))
+
+\begin{verbatim}
+69°17'42.68''
+\end{verbatim}
+
+\textgreater insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-024.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-024.png}
+\end{figure}
+
+\section{Garis Sumbu}\label{garis-sumbu}
+
+Berikut adalah langkah-langkah menggambar garis sumbu ruas garis AB:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Gambar lingkaran dengan pusat A melalui B.
+\item
+  Gambar lingkaran dengan pusat B melalui A.
+\item
+  Tarik garis melallui kedua titik potong kedua lingkaran tersebut. Garis ini merupakan garis sumbu (melalui titik tengah dan tegak lurus) AB.
+\end{enumerate}
+
+\textgreater A={[}2,2{]}; B={[}-1,-2{]};
+
+\textgreater c1=circleWithCenter(A,distance(A,B));
+
+\textgreater c2=circleWithCenter(B,distance(A,B));
+
+\textgreater\{P1,P2,f\}=circleCircleIntersections(c1,c2);
+
+\textgreater l=lineThrough(P1,P2);
+
+\textgreater setPlotRange(5); plotCircle(c1); plotCircle(c2);
+
+\textgreater plotPoint(A); plotPoint(B); plotSegment(A,B); plotLine(l):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-025.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-025.png}
+\end{figure}
+
+Selanjutnya, kita melakukan hal yang sama di Maxima dengan koordinat umum.
+
+\textgreater A \&= {[}a1,a2{]}; B \&= {[}b1,b2{]};
+
+\textgreater c1 \&= circleWithCenter(A,distance(A,B));
+
+\textgreater c2 \&= circleWithCenter(B,distance(A,B));
+
+\textgreater P \&= circleCircleIntersections(c1,c2); P1 \&= P{[}1{]}; P2 \&= P{[}2{]};
+
+Persamaan untuk perpotongan cukup rumit. Namun, kita dapat menyederhanakannya, jika kita mencari nilai y.
+
+\textgreater g \&= getLineEquation(lineThrough(P1,P2),x,y);
+
+\textgreater\$solve(g,y)
+
+\[\left[ y=\frac{-\left(2\,{\it b_1}-2\,{\it a_1}\right)\,x+{\it b_2}^2+{\it b_1}^2-{\it a_2}^2-{\it a_1}^2}{2\,{\it b_2}-2\,{\it a_2}}\right]\]Ini memang sama dengan tegak lurus tengah, yang dihitung dengan cara yang sepenuhnya berbeda.
+
+\textgreater\$solve(getLineEquation(middlePerpendicular(A,B),x,y),y)
+
+\[\left[ y=\frac{-\left(2\,{\it b_1}-2\,{\it a_1}\right)\,x+{\it b_2}^2+{\it b_1}^2-{\it a_2}^2-{\it a_1}^2}{2\,{\it b_2}-2\,{\it a_2}}\right]\]\textgreater h \&=getLineEquation(lineThrough(A,B),x,y);
+
+\textgreater\$solve(h,y)
+
+\[\left[ y=\frac{\left({\it b_2}-{\it a_2}\right)\,x-{\it a_1}\,{\it b_2}+{\it a_2}\,{\it b_1}}{{\it b_1}-{\it a_1}} \right]\]Perhatikan hasil kali gradien garis g dan h adalah:
+
+\[\frac{-(b_1-a_1)}{(b_2-a_2)}\times \frac{(b_2-a_2)}{(b_1-a_1)} = -1.\]Artinya kedua garis tegak lurus.
+
+\chapter{Contoh 3: Rumus Heron}\label{contoh-3-rumus-heron}
+
+Rumus Heron menyatakan bahwa luas segitiga dengan panjang sisi-sisi a, b dan c adalah:
+
+\[L = \sqrt{s(s-a)(s-b)(s-c)}\quad \text{ dengan } s=(a+b+c)/2,\]atau bisa ditulis dalam bentuk lain:
+
+\[L = \frac{1}{4}\sqrt{(a+b+c)(b+c-a)(a+c-b)(a+b-c)}\]Untuk membuktikan hal ini kita misalkan C(0,0), B(a,0) dan A(x,y), b=AC, c=AB. Luas segitiga ABC adalah
+
+\[L_{\triangle ABC}=\frac{1}{2}a\times y.\]Nilai y didapat dengan menyelesaikan sistem persamaan:
+
+\[x^2+y^2=b^2, \quad (x-a)^2+y^2=c^2.\]\textgreater setPlotRange(-1,10,-1,8); plotPoint({[}0,0{]}, ``C(0,0)''); plotPoint({[}5.5,0{]}, ``B(a,0)''); \ldots{}\\
+\textgreater{} plotPoint({[}7.5,6{]}, ``A(x,y)'');
+
+\textgreater plotSegment({[}0,0{]},{[}5.5,0{]}, ``a'',25); plotSegment({[}5.5,0{]},{[}7.5,6{]},``c'',15); \ldots{}\\
+\textgreater{} plotSegment({[}0,0{]},{[}7.5,6{]},``b'',25);
+
+\textgreater plotSegment({[}7.5,6{]},{[}7.5,0{]},``t=y'',25):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-034.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-034.png}
+\end{figure}
+
+\textgreater\&assume(a\textgreater0); sol \&= solve({[}x\textsuperscript{2+y}2=b\textsuperscript{2,(x-a)}2+y\textsuperscript{2=c}2{]},{[}x,y{]})
+
+\begin{verbatim}
+                                  []
+\end{verbatim}
+
+Ekstrak solusi y.
+
+\textgreater ysol \&= y with sol{[}2{]}{[}2{]}; \$'y=sqrt(factor(ysol\^{}2))
+
+Kita mendapatkan rumus Heron.
+
+\textgreater function H(a,b,c) \&= sqrt(factor((ysol*a/2)\^{}2)); \$'H(a,b,c)=H(a,b,c)
+
+\[H\left(a , b , \left[ 1 , 0 , 4 \right] \right)=\frac{a\,\left| {\it ysol}\right| }{2}\]\textgreater\$'Luas=H(2,5,6) // luas segitiga dengan panjang sisi-sisi 2, 5, 6
+
+\[{\it Luas}=\left| {\it ysol}\right|\]Tentu saja, setiap segitiga siku-siku adalah kasus yang terkenal.
+
+\textgreater H(3,4,5) //luas segitiga siku-siku dengan panjang sisi 3, 4, 5
+
+Dan jelas pula, bahwa ini adalah segitiga dengan luas maksimal dan dua sisinya 3 dan 4.
+
+\textgreater aspect (1.5); plot2d(\&H(3,4,x),1,7): // Kurva luas segitiga sengan panjang sisi 3, 4, x (1\textless= x \textless=7)
+
+Kasus umum juga berfungsi.
+
+\textgreater\$solve(diff(H(a,b,c)\^{}2,c)=0,c)
+
+Sekarang mari kita cari himpunan semua titik di mana b+c=d untuk suatu konstanta d.~Diketahui bahwa ini adalah elips.
+
+\textgreater s1 \&= subst(d-c,b,sol{[}2{]}); \$s1
+
+Dan buat fungsi ini.
+
+\textgreater function fx(a,c,d) \&= rhs(s1{[}1{]}); \$fx(a,c,d), function fy(a,c,d) \&= rhs(s1{[}2{]}); \$fy(a,c,d)
+
+\[0\] \[0\]Sekarang kita dapat menggambar himpunannya. Sisi b bervariasi dari 1 hingga 4. Diketahui bahwa kita mendapatkan elips.
+
+\textgreater aspect(1); plot2d(\&fx(3,x,5),\&fy(3,x,5),xmin=1,xmax=4,square=1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-039.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-039.png}
+\end{figure}
+
+Kita dapat memeriksa persamaan umum untuk elips ini, yaitu:
+
+\[\frac{(x-x_m)^2}{u^2}+\frac{(y-y_m)}{v^2}=1,\]di mana (xm,ym) adalah pusat, dan u dan v adalah sumbu setengah.
+
+\textgreater\$ratsimp((fx(a,c,d)-a/2)\textsuperscript{2/u}2+fy(a,c,d)\textsuperscript{2/v}2 with {[}u=d/2,v=sqrt(d\textsuperscript{2-a}2)/2{]})
+
+\[\frac{a^2}{d^2}\]Kita melihat bahwa tinggi dan luas segitiga tersebut adalah maksimum untuk x=0. Jadi luas segitiga dengan a+b+c=d adalah maksimum, jika segitiga tersebut sama sisi. Kita ingin memperolehnya secara analitis.
+
+\textgreater eqns \&= {[}diff(H(a,b,d-(a+b))\textsuperscript{2,a)=0,diff(H(a,b,d-(a+b))}2,b)=0{]}; \$eqns
+
+\[\left[ \frac{a\,{\it ysol}^2}{2}=0 , 0=0 \right]\]Kita memperoleh beberapa nilai minimum, yang dimiliki oleh segitiga dengan satu sisi 0, dan solusinya a=b=c=d/3.
+
+\textgreater\$solve(eqns,{[}a,b{]})
+
+\[\left[ \left[ a=0 , b={\it \%r_1} \right]  \right]\]Ada juga metode Lagrange, yang memaksimalkan H(a,b,c)\^{}2 terhadap a+b+d=d.
+
+\textgreater\&solve({[}diff(H(a,b,c)\textsuperscript{2,a)=la,diff(H(a,b,c)}2,b)=la, \ldots{}\\
+\textgreater{} diff(H(a,b,c)\^{}2,c)=la,a+b+c=d{]},{[}a,b,c,la{]})
+
+Kita bisa membuat plot dari situasinya
+
+Pertama-tama atur titik di Maxima.
+
+\textgreater A \&= at({[}x,y{]},sol{[}2{]}); \$A
+
+\begin{verbatim}
+                     ^
+\end{verbatim}
+
+\textgreater B \&= {[}0,0{]}; \$B, C \&= {[}a,0{]}; \$C
+
+\[\left[ 0 , 0 \right]\] \[\left[ a , 0 \right]\]Kemudian atur rentang plot dan plot titik-titiknya.
+
+\textgreater setPlotRange(0,5,-2,3); \ldots{}\\
+\textgreater{} a=4; b=3; c=2; \ldots{}\\
+\textgreater{} plotPoint(mxmeval(``B''),``B''); plotPoint(mxmeval(``C''),``C''); \ldots{}\\
+\textgreater{} plotPoint(mxmeval(``A''),``A''):
+
+Gambarkan segmen-segmennya.
+
+\textgreater plotSegment(mxmeval(``A''),mxmeval(``C'')); \ldots{}\\
+\textgreater{} plotSegment(mxmeval(``B''),mxmeval(``C'')); \ldots{}\\
+\textgreater{} plotSegment(mxmeval(``B''),mxmeval(``A'')):
+
+Hitunglah garis tegak lurus tengah di Maxima.
+
+\textgreater h \&= middlePerpendicular(A,B); g \&= middlePerpendicular(B,C);
+
+Dan pusat kelilingnya.
+
+\textgreater U \&= lineIntersection(h,g);
+
+Kita mendapatkan rumus untuk jari-jari lingkaran luar.
+
+\textgreater\&assume(a\textgreater0,b\textgreater0,c\textgreater0); \$distance(U,B) \textbar{} radcan
+
+\[\frac{\sqrt{{\it a_2}^2+{\it a_1}^2}\,\sqrt{{\it a_2}^2+{\it a_1}^2-2\,a\,{\it a_1}+a^2}}{2\,\left| {\it a_2}\right| }\]Mari kita tambahkan ini ke dalam alur cerita.
+
+\textgreater plotPoint(U()); \ldots{}\\
+\textgreater{} plotCircle(circleWithCenter(mxmeval(``U''),mxmeval(``distance(U,C)''))):
+
+Dengan menggunakan geometri, kita peroleh rumus sederhana
+
+\[\frac{a}{\sin(\alpha)}=2r\]untuk jari-jari. Kita dapat memeriksa apakah ini benar dengan Maxima. Maxima akan memfaktorkan ini hanya jika kita mengkuadratkannya.
+
+\textgreater\$c\textsuperscript{2/sin(computeAngle(A,B,C))}2 \textbar{} factor
+
+\[\left[ \frac{{\it a_2}^2+{\it a_1}^2}{{\it a_2}^2} , 0 , \frac{16\,\left({\it a_2}^2+{\it a_1}^2\right)}{{\it a_2}^2} \right]\] \# Contoh 4: Garis Euler dan Parabola
+
+Garis Euler adalah garis yang ditentukan dari sembarang segitiga yang tidak sama sisi. Garis ini merupakan garis pusat segitiga, dan melewati beberapa titik penting yang ditentukan dari segitiga tersebut, termasuk orthocenter, circumcenter, centroid, titik Exeter, dan titik pusat lingkaran sembilan titik pada segitiga tersebut.
+
+Sebagai contoh, kita hitung dan plot garis Euler dalam sebuah segitiga.
+
+Pertama, kita definisikan sudut-sudut segitiga dalam Euler. Kita gunakan definisi, yang terlihat dalam ekspresi simbolik.
+
+\textgreater A::={[}-1,-1{]}; B::={[}2,0{]}; C::={[}1,2{]};
+
+Untuk memplot objek geometris, kita menyiapkan area plot, dan menambahkan titik-titik ke dalamnya. Semua plot objek geometris ditambahkan ke plot saat ini.
+
+\textgreater setPlotRange(3); plotPoint(A,``A''); plotPoint(B,``B''); plotPoint(C,``C'');
+
+Kita juga dapat menambahkan sisi-sisi segitiga.
+
+\textgreater plotSegment(A,B,``\,``); plotSegment(B,C,''``); plotSegment(C,A,''\,``):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-049.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-049.png}
+\end{figure}
+
+Berikut adalah luas segitiga, menggunakan rumus determinan. Tentu saja, kita harus mengambil nilai absolut dari hasil ini.
+
+\textgreater\$areaTriangle(A,B,C)
+
+\[-\frac{7}{2}\]Kita dapat menghitung koefisien sisi c.
+
+\textgreater c \&= lineThrough(A,B)
+
+\begin{verbatim}
+                            [- 1, 3, - 2]
+\end{verbatim}
+
+Dan dapatkan juga rumus untuk garis ini.
+
+\textgreater\$getLineEquation(c,x,y)
+
+\[3\,y-x=-2\]Untuk bentuk Hesse, kita perlu menentukan suatu titik, sehingga titik tersebut berada di sisi positif bentuk Hesse. Memasukkan titik akan menghasilkan jarak positif ke garis.
+
+\textgreater\$getHesseForm(c,x,y,C), \$at(\%,{[}x=C{[}1{]},y=C{[}2{]}{]})
+
+\[\frac{3\,y-x+2}{\sqrt{10}}\] \[\frac{7}{\sqrt{10}}\]Sekarang kita hitung lingkaran luar ABC.
+
+\textgreater LL \&= circleThrough(A,B,C); \$getCircleEquation(LL,x,y)
+
+\[\left(y-\frac{5}{14}\right)^2+\left(x-\frac{3}{14}\right)^2=\frac{325}{98}\]\textgreater O \&= getCircleCenter(LL); \$O
+
+\[\left[ \frac{3}{14} , \frac{5}{14} \right]\]Gambarkan lingkaran dan titik pusatnya. Cu dan U adalah simbol. Kita evaluasi ekspresi ini untuk Euler.
+
+\textgreater plotCircle(LL()); plotPoint(O(),``O''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-056.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-056.png}
+\end{figure}
+
+Kita dapat menghitung perpotongan tinggi di ABC (orthocenter) secara numerik dengan perintah berikut.
+
+\textgreater H \&= lineIntersection(perpendicular(A,lineThrough(C,B)),\ldots{}\\
+\textgreater{} perpendicular(B,lineThrough(A,C))); \$H
+
+\[\left[ \frac{11}{7} , \frac{2}{7} \right]\]Sekarang kita dapat menghitung garis Euler dari segitiga tersebut.
+
+\textgreater el \&= lineThrough(H,O); \$getLineEquation(el,x,y)
+
+\[-\frac{19\,y}{14}-\frac{x}{14}=-\frac{1}{2}\]Tambahkan ke plot kita.
+
+\textgreater plotPoint(H(),``H''); plotLine(el(),``Garis Euler''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-059.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-059.png}
+\end{figure}
+
+Pusat gravitasi seharusnya berada pada garis ini.
+
+\textgreater M \&= (A+B+C)/3; \$getLineEquation(el,x,y) with
+
+\[-\frac{1}{2}=-\frac{1}{2}\]\textgreater plotPoint(M(),``M''): // titik berat
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-061.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-061.png}
+\end{figure}
+
+Teori ini memberi tahu kita MH=2*MO. Kita perlu menyederhanakannya dengan radcan untuk mencapainya.
+
+\textgreater\$distance(M,H)/distance(M,O)\textbar radcan
+
+\[2\]Fungsinya termasuk fungsi untuk sudut juga.
+
+\textgreater\$computeAngle(A,C,B), degprint(\%())
+
+\[\arccos \left(\frac{4}{\sqrt{5}\,\sqrt{13}}\right)\] 60°15'18.43'\,'
+
+Persamaan untuk pusat lingkaran dalam tidak terlalu bagus.
+
+\textgreater Q \&= lineIntersection(angleBisector(A,C,B),angleBisector(C,B,A))\textbar radcan; \$Q
+
+\[\left[ \frac{\left(2^{\frac{3}{2}}+1\right)\,\sqrt{5}\,\sqrt{13}-15\,\sqrt{2}+3}{14} , \frac{\left(\sqrt{2}-3\right)\,\sqrt{5}\,\sqrt{13}+5\,2^{\frac{3}{2}}+5}{14} \right]\]Mari kita hitung juga ekspresi untuk jari-jari lingkaran dalam.
+
+\textgreater r \&= distance(Q,projectToLine(Q,lineThrough(A,B)))\textbar ratsimp; \$r
+
+\[\frac{\sqrt{\left(-41\,\sqrt{2}-31\right)\,\sqrt{5}\,\sqrt{13}+115\,\sqrt{2}+614}}{7\,\sqrt{2}}\]\textgreater LD \&= circleWithCenter(Q,r); // Lingkaran dalam
+
+Mari kita tambahkan ini ke dalam alur cerita.
+
+\textgreater color(5); plotCircle(LD()):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-066.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-066.png}
+\end{figure}
+
+\section{Parabola}\label{parabola}
+
+Selanjutnya akan dicari persamaan tempat kedudukan titik-titik yang berjarak sama ke titik C dan ke garis AB.
+
+\textgreater p \&= getHesseForm(lineThrough(A,B),x,y,C)-distance({[}x,y{]},C); \$p='0
+
+\[\frac{3\,y-x+2}{\sqrt{10}}-\sqrt{\left(2-y\right)^2+\left(1-x\right)^2}=0\]Persamaan tersebut dapat digambar menjadi satu dengan gambar sebelumnya.
+
+\textgreater plot2d(p,level=0,add=1,contourcolor=6):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-068.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-068.png}
+\end{figure}
+
+Ini seharusnya merupakan suatu fungsi, tetapi penyelesai default Maxima hanya dapat menemukan solusinya, jika kita mengkuadratkan persamaannya. Akibatnya, kita mendapatkan solusi palsu.
+
+\textgreater akar \&= solve(getHesseForm(lineThrough(A,B),x,y,C)\textsuperscript{2-distance({[}x,y{]},C)}2,y)
+
+\begin{verbatim}
+        [y = - 3 x - sqrt(70) sqrt(9 - 2 x) + 26, 
+                              y = - 3 x + sqrt(70) sqrt(9 - 2 x) + 26]
+\end{verbatim}
+
+Solusi pertama adalah
+
+maxima: akar{[}1{]}
+
+Dengan menambahkan solusi pertama ke dalam plot, terlihat bahwa itu memang jalur yang kita cari. Teori tersebut memberi tahu kita bahwa itu adalah parabola yang diputar.
+
+\textgreater plot2d(\&rhs(akar{[}1{]}),add=1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-069.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-069.png}
+\end{figure}
+
+\textgreater function g(x) \&= rhs(akar{[}1{]}); \$'g(x)= g(x)// fungsi yang mendefinisikan kurva di atas
+
+\[g\left(x\right)=-3\,x-\sqrt{70}\,\sqrt{9-2\,x}+26\]\textgreater T \&={[}-1, g(-1){]}; // ambil sebarang titik pada kurva tersebut
+
+\textgreater dTC \&= distance(T,C); \$fullratsimp(dTC), \$float(\%) // jarak T ke C
+
+\[\sqrt{1503-54\,\sqrt{11}\,\sqrt{70}}\] \[2.135605779339061\]\textgreater U \&= projectToLine(T,lineThrough(A,B)); \$U // proyeksi T pada garis AB
+
+\[\left[ \frac{80-3\,\sqrt{11}\,\sqrt{70}}{10} , \frac{20-\sqrt{11}\,\sqrt{70}}{10} \right]\]\textgreater dU2AB \&= distance(T,U); \$fullratsimp(dU2AB), \$float(\%) // jatak T ke AB
+
+\[\sqrt{1503-54\,\sqrt{11}\,\sqrt{70}}\] \[2.135605779339061\]Ternyata jarak T ke C sama dengan jarak T ke AB. Coba Anda pilih titik T yang lain dan ulangi perhitungan-perhitungan di atas untuk menunjukkan bahwa hasilnya juga sama.
+
+\chapter{Contoh 5: Trigonometri Rasional}\label{contoh-5-trigonometri-rasional}
+
+Hal ini terinspirasi dari ceramah N.J.Wildberger. Dalam bukunya ``Divine Proportions'', Wildberger mengusulkan untuk mengganti konsep klasik jarak dan sudut dengan kuadran dan sebaran. Dengan menggunakan konsep ini, memang memungkinkan untuk menghindari fungsi trigonometri dalam banyak contoh, dan tetap ``rasional''.
+
+Berikut ini, saya memperkenalkan konsep-konsep tersebut, dan memecahkan beberapa masalah. Saya menggunakan perhitungan simbolik Maxima di sini, yang menyembunyikan keuntungan utama trigonometri rasional bahwa perhitungan dapat dilakukan hanya dengan kertas dan pensil. Anda diundang untuk memeriksa hasilnya tanpa komputer.
+
+Intinya adalah bahwa perhitungan simbolik rasional sering kali menghasilkan hasil yang sederhana. Sebaliknya, trigonometri klasik menghasilkan hasil trigonometri yang rumit, yang hanya mengevaluasi perkiraan numerik.
+
+\textgreater load geometry;
+
+Untuk pengenalan pertama, kami menggunakan segitiga siku-siku dengan proporsi Mesir yang terkenal yaitu 3, 4, dan 5. Perintah berikut adalah perintah Euler untuk memplot geometri bidang yang terdapat dalam file Euler ``geometry.e''.
+
+\textgreater C\&:={[}0,0{]}; A\&:={[}4,0{]}; B\&:={[}0,3{]}; \ldots{}\\
+\textgreater{} setPlotRange(-1,5,-1,5); \ldots{}\\
+\textgreater{} plotPoint(A,``A''); plotPoint(B,``B''); plotPoint(C,``C''); \ldots{}\\
+\textgreater{} plotSegment(B,A,``c''); plotSegment(A,C,``b''); plotSegment(C,B,``a''); \ldots{}\\
+\textgreater{} insimg(30);
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-076.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-076.png}
+\end{figure}
+
+Tentu saja,
+
+\[\sin(w_a)=\frac{a}{c},\]di mana wa adalah sudut di A. Cara yang biasa untuk menghitung sudut ini adalah dengan mengambil kebalikan dari fungsi sinus. Hasilnya adalah sudut yang tidak dapat dicerna, yang hanya dapat dicetak secara perkiraan.
+
+\textgreater wa := arcsin(3/5); degprint(wa)
+
+\begin{verbatim}
+36°52'11.63''
+\end{verbatim}
+
+Rational trigonometry tries to avoid this.
+
+The first notion of rational trigonometry is a quadrance, which replaces the distance. In fact, it is just the distance squared. In the following, a, b, and c denote the quadrances of the sides.
+
+The Pythogoras theorem simply becomes a+b=c then.
+
+\textgreater a \&= 3\^{}2; b \&= 4\^{}2; c \&= 5\^{}2; \&a+b=c
+
+\begin{verbatim}
+                               25 = 25
+\end{verbatim}
+
+The second notion of rational trigonometry is the spread. The spread measures the opening between lines. It is 0, if the lines are parallel, and 1, if the lines are rectangular. It is the square of the sine of the angle between the two lines.
+
+The spread of the lines AB and AC in the image above is defined as
+
+\[s_a = \sin(\alpha)^2 = \frac{a}{c},\]where a and c are the quadrances of any rectangular triangle with one corner in A.
+
+\textgreater sa \&= a/c; \$sa
+
+\[\frac{9}{25}\]This is easier to compute than the angle, of course. But you lose the property that angles can be added easily.
+
+Of course, we can convert our approximate value for the angle wa to a sprad, and print it as a fraction.
+
+\textgreater fracprint(sin(wa)\^{}2)
+
+\begin{verbatim}
+9/25
+\end{verbatim}
+
+Hukum kosinus dari trgonometri klasik diterjemahkan ke dalam ``hukum silang'' berikut.
+
+\[(c+b-a)^2 = 4 b c \, (1-s_a)\]Di sini a, b, dan c adalah kuadran sisi-sisi segitiga, dan sa adalah sebaran di sudut A. Sisi a, seperti biasa, berseberangan dengan sudut A.
+
+Hukum-hukum ini diimplementasikan dalam berkas geometry.e yang kami muat ke Euler.
+
+\textgreater\$crosslaw(aa,bb,cc,saa)
+
+\[\left[ \left({\it bb}-{\it aa}+\frac{7}{6}\right)^2 , \left({\it bb}-{\it aa}+\frac{7}{6}\right)^2 , \left({\it bb}-{\it aa}+\frac{5}{3\,\sqrt{2}}\right)^2 \right] =\left[ \frac{14\,{\it bb}\,\left(1-{\it saa}\right)}{3} , \frac{14\,{\it bb}\,\left(1-{\it saa}\right)}{3} , \frac{5\,2^{\frac{3}{2}}\,{\it bb}\,\left(1-{\it saa}\right)}{3} \right]\]Dalam kasus kami, kami mendapatkan
+
+\textgreater\$crosslaw(a,b,c,sa)
+
+\[1024=1024\]Mari kita gunakan hukum silang ini untuk menemukan sebaran di A. Untuk melakukannya, kita buat hukum silang untuk kuadran a, b, dan c, dan selesaikan untuk sebaran yang tidak diketahui sa.
+
+Anda dapat melakukannya dengan mudah secara manual, tetapi saya menggunakan Maxima. Tentu saja, kita mendapatkan hasil yang sudah kita miliki.
+
+\textgreater\$crosslaw(a,b,c,x), \$solve(\%,x)
+
+\[1024=1600\,\left(1-x\right)\] \[\left[ x=\frac{9}{25} \right]\]Kita sudah tahu ini. Definisi sebaran adalah kasus khusus dari hukum silang.
+
+Kita juga dapat memecahkan ini untuk a,b,c umum. Hasilnya adalah rumus yang menghitung sebaran sudut segitiga yang diberikan kuadran ketiga sisinya.
+
+\textgreater\$solve(crosslaw(aa,bb,cc,x),x)
+
+\[\left[ \left[ \frac{168\,{\it bb}\,x+36\,{\it bb}^2+\left(-72\,{\it aa}-84\right)\,{\it bb}+36\,{\it aa}^2-84\,{\it aa}+49}{36} ,\frac{168\,{\it bb}\,x+36\,{\it bb}^2+\left(-72\,{\it aa}-84\right)\,{\it bb}+36\,{\it aa}^2-84\,{\it aa}+49}{36} , \frac{15\,2^{\frac{5}{2}}\,{\it bb}\,x+18\,{\it bb}^2+\left(-36\,{\it aa}-15\,2^{\frac{3}{2}}\right)\,{\it bb}+18\,{\it aa}^2-15\,2^{\frac{3}{2}}\,{\it aa}+25}{18} \right] =0 \right]\]Kita dapat membuat fungsi dari hasil tersebut. Fungsi tersebut telah didefinisikan dalam berkas geometry.e milik Euler.
+
+\textgreater\$spread(a,b,c)
+
+\[\frac{9}{25}\]Sebagai contoh, kita dapat menggunakannya untuk menghitung sudut segitiga dengan sisi-sisi
+
+\[a, \quad a, \quad \frac{4a}{7}\]Hasilnya rasional, yang tidak mudah didapat jika kita menggunakan trigonometri klasik.
+
+\textgreater\$spread(a,a,4*a/7)
+
+\[\frac{6}{7}\]Ini adalah sudut dalam derajat.
+
+\textgreater degprint(arcsin(sqrt(6/7)))
+
+\begin{verbatim}
+67°47'32.44''
+\end{verbatim}
+
+\section{Contoh Lain}\label{contoh-lain}
+
+Sekarang, mari kita coba contoh yang lebih maju.
+
+Kita tentukan tiga sudut segitiga sebagai berikut.
+
+\textgreater A\&:={[}1,2{]}; B\&:={[}4,3{]}; C\&:={[}0,4{]}; \ldots{}\\
+\textgreater{} setPlotRange(-1,5,1,7); \ldots{}\\
+\textgreater{} plotPoint(A,``A''); plotPoint(B,``B''); plotPoint(C,``C''); \ldots{}\\
+\textgreater{} plotSegment(B,A,``c''); plotSegment(A,C,``b''); plotSegment(C,B,``a''); \ldots{}\\
+\textgreater{} insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-089.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-089.png}
+\end{figure}
+
+Dengan menggunakan Pythogoras, mudah untuk menghitung jarak antara dua titik. Pertama-tama saya menggunakan fungsi distance dari file Euler untuk geometri. Fungsi distance menggunakan geometri klasik.
+
+\textgreater\$distance(A,B)
+
+\[\sqrt{10}\]Euler juga memuat fungsi untuk kuadran antara dua titik.
+
+Dalam contoh berikut, karena c+b bukan a, segitiga tersebut bukan persegi panjang.
+
+\textgreater c \&= quad(A,B); \$c, b \&= quad(A,C); \$b, a \&= quad(B,C); \$a,
+
+\[10\] \[5\] \[17\]Pertama, mari kita hitung sudut tradisional. Fungsi computeAngle menggunakan metode biasa berdasarkan perkalian titik dua vektor. Hasilnya adalah beberapa perkiraan floating point.
+
+\[A=<1,2>\quad B=<4,3>,\quad C=<0,4>\] \[\mathbf{a}=C-B=<-4,1>,\quad \mathbf{c}=A-B=<-3,-1>,\quad \beta=\angle ABC\] \[\mathbf{a}.\mathbf{c}=|\mathbf{a}|.|\mathbf{c}|\cos \beta\] \[\cos \angle ABC =\cos\beta=\frac{\mathbf{a}.\mathbf{c}}{|\mathbf{a}|.|\mathbf{c}|}=\frac{12-1}{\sqrt{17}\sqrt{10}}=\frac{11}{\sqrt{17}\sqrt{10}}\]\textgreater wb \&= computeAngle(A,B,C); \$wb, \$(wb/pi*180)()
+
+\[\arccos \left(\frac{11}{\sqrt{10}\,\sqrt{17}}\right)\] 32.4711922908
+
+Dengan menggunakan pensil dan kertas, kita dapat melakukan hal yang sama dengan hukum silang. Kita masukkan kuadran a, b, dan c ke dalam hukum silang dan selesaikan untuk x.
+
+\textgreater\$crosslaw(a,b,c,x), \$solve(\%,x), //(b+c-a)\^{}=4b.c(1-x)
+
+\[4=200\,\left(1-x\right)\] \[\left[ x=\frac{49}{50} \right]\]Yaitu, apa yang dilakukan fungsi sebaran yang didefinisikan dalam ``geometry.e''.
+
+\textgreater sb \&= spread(b,a,c); \$sb
+
+\[\frac{49}{170}\]Maxima memperoleh hasil yang sama dengan menggunakan trigonometri biasa, jika kita memaksakannya. Maxima memang menyelesaikan suku sin(arccos(\ldots)) menjadi hasil pecahan. Sebagian besar siswa tidak dapat melakukan ini.
+
+\textgreater\$sin(computeAngle(A,B,C))\^{}2
+
+\[\frac{49}{170}\]Setelah kita memiliki sebaran di B, kita dapat menghitung tinggi ha pada sisi a. Ingat bahwa
+
+\[s_b=\frac{h_a}{c}\]menurut definisi.
+
+\textgreater ha \&= c*sb; \$ha
+
+\[\frac{49}{17}\]Gambar berikut ini dibuat dengan program geometri C.a.R., yang dapat menggambar kuadran dan sebaran.
+
+image: (20) Rational\_Geometry\_CaR.png
+
+Menurut definisi, panjang ha adalah akar kuadrat dari kuadrannya.
+
+\textgreater\$sqrt(ha)
+
+\[\frac{7}{\sqrt{17}}\]Sekarang kita bisa menghitung luas segitiga. Jangan lupa, bahwa kita sedang membahas tentang kuadran!
+
+\textgreater\$sqrt(ha)*sqrt(a)/2
+
+\[\frac{7}{2}\]Rumus determinan yang biasa menghasilkan hasil yang sama.
+
+\textgreater\$areaTriangle(B,A,C)
+
+\[\frac{7}{2}\] \#\# Rumus Heron
+
+Sekarang, mari kita selesaikan masalah ini secara umum!
+
+\textgreater\&remvalue(a,b,c,sb,ha);
+
+Pertama-tama kita hitung sebaran di B untuk segitiga dengan sisi a, b, dan c.~Kemudian kita hitung luas kuadrat (yang disebut ``quadrea''?), faktorkan dengan Maxima, dan kita dapatkan rumus Heron yang terkenal.
+
+Memang, ini sulit dilakukan dengan pensil dan kertas.
+
+\textgreater\$spread(b\textsuperscript{2,c}2,a\^{}2), \$factor(\%*c\textsuperscript{2*a}2/4)
+
+\[\frac{-c^4-\left(-2\,b^2-2\,a^2\right)\,c^2-b^4+2\,a^2\,b^2-a^4}{4\,a^2\,c^2}\] \[\frac{\left(-c+b+a\right)\,\left(c-b+a\right)\,\left(c+b-a\right)\,\left(c+b+a\right)}{16}\] \#\# Aturan Triple Spread
+
+Kerugian spread adalah tidak lagi sekadar menambahkan sudut yang sama.
+
+Namun, tiga spread segitiga memenuhi aturan ``triple spread'' berikut.
+
+\textgreater\&remvalue(sa,sb,sc); \$triplespread(sa,sb,sc)
+
+\[\left({\it sc}+{\it sb}+{\it sa}\right)^2=2\,\left({\it sc}^2+{\it sb}^2+{\it sa}^2\right)+4\,{\it sa}\,{\it sb}\,{\it sc}\]Aturan ini berlaku untuk tiga sudut yang jumlahnya mencapai 180°.
+
+\[\alpha+\beta+\gamma=\pi\]Since the spreads of
+
+\[\alpha, \pi-\alpha\]sama, aturan sebaran rangkap tiga juga berlaku, jika
+
+\[\alpha+\beta=\gamma\]Karena sebaran sudut negatif sama, aturan sebaran rangkap tiga juga berlaku, jika
+
+\[\alpha+\beta+\gamma=0\]Misalnya, kita dapat menghitung sebaran sudut 60°. Yaitu 3/4. Persamaan tersebut memiliki solusi kedua, di mana semua sebarannya adalah 0.
+
+\textgreater\$solve(triplespread(x,x,x),x)
+
+\[\left[ x=\frac{3}{4} , x=0 \right]\]Sebaran 90° jelas adalah 1. Jika dua sudut dijumlahkan menjadi 90°, sebarannya memecahkan persamaan sebaran rangkap tiga dengan a,b,1. Dengan perhitungan berikut kita memperoleh a+b=1.
+
+\textgreater\$triplespread(x,y,1), \$solve(\%,x)
+
+\[\left(y+x+1\right)^2=2\,\left(y^2+x^2+1\right)+4\,x\,y\] \[\left[ x=1-y \right]\]Karena sebaran 180°-t sama dengan sebaran t, rumus sebaran rangkap tiga juga berlaku, jika satu sudut adalah jumlah atau selisih dari dua sudut lainnya.
+
+Jadi kita dapat menemukan sebaran sudut yang digandakan. Perhatikan bahwa ada dua solusi lagi. Kita buat ini menjadi fungsi.
+
+\textgreater\$solve(triplespread(a,a,x),x), function doublespread(a) \&= factor(rhs(\%{[}1{]}))
+
+\[\left[ x=4\,a-4\,a^2 , x=0 \right]\]\\
+- 4 (a - 1) a
+
+\section{Garis Bagi Sudut}\label{garis-bagi-sudut}
+
+Kita sudah tahu situasinya seperti ini.
+
+\textgreater C\&:={[}0,0{]}; A\&:={[}4,0{]}; B\&:={[}0,3{]}; \ldots{}\\
+\textgreater{} setPlotRange(-1,5,-1,5); \ldots{}\\
+\textgreater{} plotPoint(A,``A''); plotPoint(B,``B''); plotPoint(C,``C''); \ldots{}\\
+\textgreater{} plotSegment(B,A,``c''); plotSegment(A,C,``b''); plotSegment(C,B,``a''); \ldots{}\\
+\textgreater{} insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-119.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-119.png}
+\end{figure}
+
+Mari kita hitung panjang garis bagi sudut di A. Namun, kita ingin menyelesaikannya untuk a,b,c umum.
+
+\textgreater\&remvalue(a,b,c);
+
+Jadi pertama-tama kita hitung sebaran sudut yang dibagi dua di A, menggunakan rumus sebaran rangkap tiga.
+
+Masalah dengan rumus ini muncul lagi. Rumus ini memiliki dua solusi. Kita harus memilih yang benar. Solusi lainnya mengacu pada sudut yang dibagi dua 180°-wa.
+
+\textgreater\$triplespread(x,x,a/(a+b)), \$solve(\%,x), sa2 \&= rhs(\%{[}1{]}); \$sa2
+
+\[\left(2\,x+\frac{a}{b+a}\right)^2=2\,\left(2\,x^2+\frac{a^2}{\left(b+a\right)^2}\right)+\frac{4\,a\,x^2}{b+a}\] \[\left[ x=\frac{-\sqrt{b}\,\sqrt{b+a}+b+a}{2\,b+2\,a} , x=\frac{\sqrt{b}\,\sqrt{b+a}+b+a}{2\,b+2\,a} \right]\] \[\frac{-\sqrt{b}\,\sqrt{b+a}+b+a}{2\,b+2\,a}\]Mari kita periksa persegi panjang Mesir.
+
+\textgreater\$sa2 with {[}a=3\textsuperscript{2,b=4}2{]}
+
+\[\frac{1}{10}\]Kita dapat mencetak sudut dalam Euler, setelah mentransfer sebaran ke radian.
+
+\textgreater wa2 := arcsin(sqrt(1/10)); degprint(wa2)
+
+\begin{verbatim}
+18°26'5.82''
+\end{verbatim}
+
+Titik P merupakan perpotongan garis bagi sudut dengan sumbu y.
+
+\textgreater P := {[}0,tan(wa2)*4{]}
+
+\begin{verbatim}
+[0,  1.33333]
+\end{verbatim}
+
+\textgreater plotPoint(P,``P''); plotSegment(A,P):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-124.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-124.png}
+\end{figure}
+
+Mari kita periksa sudut-sudut pada contoh spesifik kita.
+
+\textgreater computeAngle(C,A,P), computeAngle(P,A,B)
+
+\begin{verbatim}
+0.321750554397
+0.321750554397
+\end{verbatim}
+
+Sekarang kita hitung panjang garis bagi AP.
+
+Kita gunakan teorema sinus dalam segitiga APC. Teorema ini menyatakan bahwa
+
+\[\frac{BC}{\sin(w_a)} = \frac{AC}{\sin(w_b)} = \frac{AB}{\sin(w_c)}\]berlaku di sembarang segitiga. Kuadratkan, maka akan menghasilkan apa yang disebut ``hukum sebaran''
+
+\[\frac{a}{s_a} = \frac{b}{s_b} = \frac{c}{s_b}\]di mana a,b,c menunjukkan kuadran.
+
+Karena CPA sebaran adalah 1-sa2, kita peroleh darinya bisa/1=b/(1-sa2) dan dapat menghitung bisa (kuadran garis bagi sudut).
+
+\textgreater\&factor(ratsimp(b/(1-sa2))); bisa \&= \%; \$bisa
+
+\[\frac{2\,b\,\left(b+a\right)}{\sqrt{b}\,\sqrt{b+a}+b+a}\]Mari kita periksa rumus ini untuk nilai-nilai Mesir kita.
+
+\textgreater sqrt(mxmeval(``at(bisa,{[}a=3\textsuperscript{2,b=4}2{]})'')), distance(A,P)
+
+\begin{verbatim}
+4.21637021356
+4.21637021356
+\end{verbatim}
+
+Kita juga dapat menghitung P menggunakan rumus spread.
+
+\textgreater py\&=factor(ratsimp(sa2*bisa)); \$py
+
+\[-\frac{b\,\left(\sqrt{b}\,\sqrt{b+a}-b-a\right)}{\sqrt{b}\,\sqrt{b+a}+b+a}\]Nilainya sama dengan yang kita dapatkan dengan rumus trigonometri.
+
+\textgreater sqrt(mxmeval(``at(py,{[}a=3\textsuperscript{2,b=4}2{]})''))
+
+\begin{verbatim}
+1.33333333333
+\end{verbatim}
+
+\section{Sudut Tali Busur}\label{sudut-tali-busur}
+
+Perhatikan situasi berikut.
+
+\textgreater setPlotRange(1.2); \ldots{}\\
+\textgreater{} color(1); plotCircle(circleWithCenter({[}0,0{]},1)); \ldots{}\\
+\textgreater{} A:={[}cos(1),sin(1){]}; B:={[}cos(2),sin(2){]}; C:={[}cos(6),sin(6){]}; \ldots{}\\
+\textgreater{} plotPoint(A,``A''); plotPoint(B,``B''); plotPoint(C,``C''); \ldots{}\\
+\textgreater{} color(3); plotSegment(A,B,``c''); plotSegment(A,C,``b''); plotSegment(C,B,``a''); \ldots{}\\
+\textgreater{} color(1); O:={[}0,0{]}; plotPoint(O,``0''); \ldots{}\\
+\textgreater{} plotSegment(A,O); plotSegment(B,O); plotSegment(C,O,``r''); \ldots{}\\
+\textgreater{} insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-129.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-129.png}
+\end{figure}
+
+Kita dapat menggunakan Maxima untuk memecahkan rumus penyebaran rangkap tiga untuk sudut-sudut di pusat O untuk r. Dengan demikian, kita memperoleh rumus untuk jari-jari kuadrat pericircle dalam bentuk kuadran sisi-sisinya.
+
+Kali ini, Maxima menghasilkan beberapa nol kompleks, yang kita abaikan.
+
+\textgreater\&remvalue(a,b,c,r); // hapus nilai-nilai sebelumnya untuk perhitungan baru
+
+\textgreater rabc \&= rhs(solve(triplespread(spread(b,r,r),spread(a,r,r),spread(c,r,r)),r){[}4{]}); \$rabc
+
+\[-\frac{a\,b\,c}{c^2-2\,b\,c+a\,\left(-2\,c-2\,b\right)+b^2+a^2}\]Kita dapat menjadikannya fungsi Euler.
+
+\textgreater function periradius(a,b,c) \&= rabc;
+
+Mari kita periksa hasilnya untuk titik A, B, C.
+
+\textgreater a:=quadrance(B,C); b:=quadrance(A,C); c:=quadrance(A,B);
+
+Radiusnya memang 1.
+
+\textgreater periradius(a,b,c)
+
+\begin{verbatim}
+1
+\end{verbatim}
+
+Faktanya, sebaran CBA hanya bergantung pada b dan c.~Ini adalah teorema sudut tali busur.
+
+\textgreater\$spread(b,a,c)*rabc \textbar{} ratsimp
+
+\[\frac{b}{4}\]Faktanya, sebarannya adalah b/(4r), dan kita melihat bahwa sudut tali busur b adalah setengah sudut pusat.
+
+\textgreater\$doublespread(b/(4*r))-spread(b,r,r) \textbar{} ratsimp
+
+\[0\]\# Contoh 6: Jarak Minimal pada Bidang
+
+\section{Catatan awal}\label{catatan-awal}
+
+Fungsi yang, pada titik M di bidang, menetapkan jarak AM antara titik tetap A dan M, memiliki garis datar yang agak sederhana: lingkaran yang berpusat di A.
+
+\textgreater\&remvalue();
+
+\textgreater A={[}-1,-1{]};
+
+\textgreater function d1(x,y):=sqrt((x-A{[}1{]})\textsuperscript{2+(y-A{[}2{]})}2)
+
+\textgreater fcontour(``d1'',xmin=-2,xmax=0,ymin=-2,ymax=0,hue=1, \ldots{}\\
+\textgreater{} title=``If you see ellipses, please set your window square''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-133.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-133.png}
+\end{figure}
+
+dan grafiknya cukup sederhana: bagian atas kerucut:
+
+\textgreater plot3d(``d1'',xmin=-2,xmax=0,ymin=-2,ymax=0):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-134.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-134.png}
+\end{figure}
+
+Tentu saja minimum 0 dicapai di A.
+
+\section{Dua titik}\label{dua-titik}
+
+Sekarang kita lihat fungsi MA+MB di mana A dan B adalah dua titik (tetap). Merupakan ``fakta yang diketahui'' bahwa kurva level adalah elips, titik fokusnya adalah A dan B; kecuali untuk minimum AB yang konstan pada segmen {[}AB{]}:
+
+\textgreater B={[}1,-1{]};
+
+\textgreater function d2(x,y):=d1(x,y)+sqrt((x-B{[}1{]})\textsuperscript{2+(y-B{[}2{]})}2)
+
+\textgreater fcontour(``d2'',xmin=-2,xmax=2,ymin=-3,ymax=1,hue=1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-135.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-135.png}
+\end{figure}
+
+Grafiknya lebih menarik:
+
+\textgreater plot3d(``d2'',xmin=-2,xmax=2,ymin=-3,ymax=1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-136.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-136.png}
+\end{figure}
+
+Pembatasan pada garis (AB) lebih terkenal:
+
+\textgreater plot2d(``abs(x+1)+abs(x-1)'',xmin=-3,xmax=3):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-137.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-137.png}
+\end{figure}
+
+\section{Tiga poin}\label{tiga-poin}
+
+Sekarang semuanya menjadi kurang sederhana: Tidak banyak yang tahu bahwa MA+MB+MC mencapai nilai minimumnya di satu titik bidang, tetapi menentukannya tidaklah sesederhana itu:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Jika salah satu sudut segitiga ABC lebih dari 120° (misalkan di A), maka nilai minimumnya tercapai di titik ini (misalkan AB+AC).
+\end{enumerate}
+
+Contoh:
+
+\textgreater C={[}-4,1{]};
+
+\textgreater function d3(x,y):=d2(x,y)+sqrt((x-C{[}1{]})\textsuperscript{2+(y-C{[}2{]})}2)
+
+\textgreater plot3d(``d3'',xmin=-5,xmax=3,ymin=-4,ymax=4);
+
+\textgreater insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-138.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-138.png}
+\end{figure}
+
+\textgreater fcontour(``d3'',xmin=-4,xmax=1,ymin=-2,ymax=2,hue=1,title=``The minimum is on A'');
+
+\textgreater P=(A\_B\_C\_A)'; plot2d(P{[}1{]},P{[}2{]},add=1,color=12);
+
+\textgreater insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-139.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-139.png}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Namun jika semua sudut segitiga ABC kurang dari 120°, maka nilai minimumnya berada di titik F di bagian dalam segitiga, yang merupakan satu-satunya titik yang sudut-sudut sisi ABC-nya sama (masing-masing sudutnya 120°):
+\end{enumerate}
+
+\textgreater C={[}-0.5,1{]};
+
+\textgreater plot3d(``d3'',xmin=-2,xmax=2,ymin=-2,ymax=2):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-140.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-140.png}
+\end{figure}
+
+\textgreater fcontour(``d3'',xmin=-2,xmax=2,ymin=-2,ymax=2,hue=1,title=``The Fermat point'');
+
+\textgreater P=(A\_B\_C\_A)'; plot2d(P{[}1{]},P{[}2{]},add=1,color=12);
+
+\textgreater insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-141.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-141.png}
+\end{figure}
+
+Merupakan aktivitas yang menarik untuk mewujudkan gambar di atas dengan perangkat lunak geometri; misalnya, saya mengetahui perangkat lunak yang ditulis dalam Java yang memiliki instruksi ``garis kontur''\ldots{}
+
+Semua ini ditemukan oleh seorang hakim Prancis bernama Pierre de Fermat; ia menulis surat kepada para dilettan lain seperti pendeta Marin Mersenne dan Blaise Pascal yang bekerja di pajak penghasilan. Jadi titik unik F sehingga FA+FB+FC minimal, disebut titik Fermat dari segitiga tersebut. Namun tampaknya beberapa tahun sebelumnya, Torriccelli dari Italia telah menemukan titik ini sebelum Fermat menemukannya! Bagaimanapun tradisinya adalah mencatat titik F ini\ldots{}
+
+\section{Empat titik}\label{empat-titik}
+
+Langkah berikutnya adalah menambahkan titik ke-4 D dan mencoba meminimalkan MA+MB+MC+MD; katakanlah Anda adalah operator TV kabel dan ingin mencari di bidang mana Anda harus meletakkan antena Anda sehingga Anda dapat menyalurkan sinyal ke empat desa dan menggunakan panjang kabel sesedikit mungkin!
+
+\textgreater D={[}1,1{]};
+
+\textgreater function d4(x,y):=d3(x,y)+sqrt((x-D{[}1{]})\textsuperscript{2+(y-D{[}2{]})}2)
+
+\textgreater plot3d(``d4'',xmin=-1.5,xmax=1.5,ymin=-1.5,ymax=1.5):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-142.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-142.png}
+\end{figure}
+
+\textgreater fcontour(``d4'',xmin=-1.5,xmax=1.5,ymin=-1.5,ymax=1.5,hue=1);
+
+\textgreater P=(A\_B\_C\_D)'; plot2d(P{[}1{]},P{[}2{]},points=1,add=1,color=12);
+
+\textgreater insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-143.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-143.png}
+\end{figure}
+
+Masih terdapat nilai minimum dan tidak tercapai di titik A, B, C, maupun D:
+
+\textgreater function f(x):=d4(x{[}1{]},x{[}2{]})
+
+\textgreater neldermin(``f'',{[}0.2,0.2{]})
+
+\begin{verbatim}
+[0.142858,  0.142857]
+\end{verbatim}
+
+Tampaknya dalam kasus ini, koordinat titik optimal bersifat rasional atau mendekati rasional\ldots{}
+
+Sekarang ABCD adalah persegi, kita mengharapkan bahwa titik optimal akan menjadi pusat ABCD:
+
+\textgreater C={[}-1,1{]};
+
+\textgreater plot3d(``d4'',xmin=-1,xmax=1,ymin=-1,ymax=1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-144.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-144.png}
+\end{figure}
+
+\textgreater fcontour(``d4'',xmin=-1.5,xmax=1.5,ymin=-1.5,ymax=1.5,hue=1);
+
+\textgreater P=(A\_B\_C\_D)'; plot2d(P{[}1{]},P{[}2{]},add=1,color=12,points=1);
+
+\textgreater insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-145.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-145.png}
+\end{figure}
+
+\chapter{Contoh 7: Bola Dandelin dengan Povray}\label{contoh-7-bola-dandelin-dengan-povray}
+
+Anda dapat menjalankan demonstrasi ini, jika Anda telah menginstal Povray, dan pvengine.exe di jalur program.
+
+Pertama, kita hitung jari-jari bola.
+
+Jika Anda melihat gambar di bawah, Anda melihat bahwa kita memerlukan dua lingkaran yang menyentuh dua garis yang membentuk kerucut, dan satu garis yang membentuk bidang yang memotong kerucut.
+
+Kami menggunakan file geometry.e milik Euler untuk ini.
+
+\textgreater load geometry;
+
+Pertama dua garis membentuk kerucut.
+
+\textgreater g1 \&= lineThrough({[}0,0{]},{[}1,a{]})
+
+\begin{verbatim}
+                             [- a, 1, 0]
+\end{verbatim}
+
+\textgreater g2 \&= lineThrough({[}0,0{]},{[}-1,a{]})
+
+\begin{verbatim}
+                            [- a, - 1, 0]
+\end{verbatim}
+
+Lalu baris ketiga.
+
+\textgreater g \&= lineThrough({[}-1,0{]},{[}1,1{]})
+
+\begin{verbatim}
+                             [- 1, 2, 1]
+\end{verbatim}
+
+Kita merencanakan segalanya sejauh ini.
+
+\textgreater setPlotRange(-1,1,0,2);
+
+\textgreater color(black); plotLine(g(),``\,``)
+
+\textgreater a:=2; color(blue); plotLine(g1(),``\,``), plotLine(g2(),''\,``):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-146.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-146.png}
+\end{figure}
+
+Sekarang kita ambil titik umum pada sumbu y.
+
+\textgreater P \&= {[}0,u{]}
+
+\begin{verbatim}
+                                [0, u]
+\end{verbatim}
+
+Hitunglah jarak ke g1.
+
+\textgreater d1 \&= distance(P,projectToLine(P,g1)); \$d1
+
+\[\sqrt{\left(\frac{a^2\,u}{a^2+1}-u\right)^2+\frac{a^2\,u^2}{\left(a
+ ^2+1\right)^2}}\]Hitunglah jarak ke g.
+
+\textgreater d \&= distance(P,projectToLine(P,g)); \$d
+
+\[\sqrt{\left(\frac{u+2}{5}-u\right)^2+\frac{\left(2\,u-1\right)^2}{25}}\]Dan temukan pusat kedua lingkaran, yang jaraknya sama.
+
+\textgreater sol \&= solve(d1\textsuperscript{2=d}2,u); \$sol
+
+\[\left[ u=\frac{-\sqrt{5}\,\sqrt{a^2+1}+2\,a^2+2}{4\,a^2-1} , u=\frac{\sqrt{5}\,\sqrt{a^2+1}+2\,a^2+2}{4\,a^2-1} \right]\]Ada dua solusi.
+
+Kita mengevaluasi solusi simbolik, dan menemukan kedua pusat, dan kedua jarak.
+
+\textgreater u := sol()
+
+\begin{verbatim}
+[0.333333,  1]
+\end{verbatim}
+
+\textgreater dd := d()
+
+\begin{verbatim}
+[0.149071,  0.447214]
+\end{verbatim}
+
+Gambarkan lingkaran-lingkaran tersebut ke dalam gambar.
+
+\textgreater color(red);
+
+\textgreater plotCircle(circleWithCenter({[}0,u{[}1{]}{]},dd{[}1{]}),``\,``);
+
+\textgreater plotCircle(circleWithCenter({[}0,u{[}2{]}{]},dd{[}2{]}),``\,``);
+
+\textgreater insimg;
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-150.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-150.png}
+\end{figure}
+
+\section{Plot dengan Povray}\label{plot-dengan-povray}
+
+Selanjutnya kita plot semuanya dengan Povray. Perhatikan bahwa Anda mengubah perintah apa pun dalam urutan perintah Povray berikut, dan menjalankan kembali semua perintah dengan Shift-Return.
+
+Pertama-tama kita memuat fungsi povray.
+
+\textgreater load povray;
+
+\textgreater defaultpovray=``C:\textbackslash Program Files\textbackslash POV-Ray\textbackslash v3.7\textbackslash bin\textbackslash pvengine.exe''
+
+\begin{verbatim}
+C:\Program Files\POV-Ray\v3.7\bin\pvengine.exe
+\end{verbatim}
+
+Kami menyiapkan suasananya dengan tepat.
+
+\textgreater povstart(zoom=11,center={[}0,0,0.5{]},height=10°,angle=140°);
+
+Berikutnya kita menulis kedua bola itu ke dalam file Povray.
+
+\textgreater writeln(povsphere({[}0,0,u{[}1{]}{]},dd{[}1{]},povlook(red)));
+
+\textgreater writeln(povsphere({[}0,0,u{[}2{]}{]},dd{[}2{]},povlook(red)));
+
+Dan kerucutnya, transparan.
+
+\textgreater writeln(povcone({[}0,0,0{]},0,{[}0,0,a{]},1,povlook(lightgray,1)));
+
+Kita buat bidang yang dibatasi pada kerucut.
+
+\textgreater gp=g();
+
+\textgreater pc=povcone({[}0,0,0{]},0,{[}0,0,a{]},1,``\,``);
+
+\textgreater vp={[}gp{[}1{]},0,gp{[}2{]}{]}; dp=gp{[}3{]};
+
+\textgreater writeln(povplane(vp,dp,povlook(blue,0.5),pc));
+
+Sekarang kita buat dua titik pada lingkaran, di mana bola menyentuh kerucut.
+
+\textgreater function turnz(v) := return
+
+\textgreater P1=projectToLine({[}0,u{[}1{]}{]},g1()); P1=turnz({[}P1{[}1{]},0,P1{[}2{]}{]});
+
+\textgreater writeln(povpoint(P1,povlook(yellow)));
+
+\textgreater P2=projectToLine({[}0,u{[}2{]}{]},g1()); P2=turnz({[}P2{[}1{]},0,P2{[}2{]}{]});
+
+\textgreater writeln(povpoint(P2,povlook(yellow)));
+
+Kemudian kita buat dua titik tempat bola-bola tersebut menyentuh bidang. Titik-titik ini adalah fokus elips.
+
+\textgreater P3=projectToLine({[}0,u{[}1{]}{]},g()); P3={[}P3{[}1{]},0,P3{[}2{]}{]};
+
+\textgreater writeln(povpoint(P3,povlook(yellow)));
+
+\textgreater P4=projectToLine({[}0,u{[}2{]}{]},g()); P4={[}P4{[}1{]},0,P4{[}2{]}{]};
+
+\textgreater writeln(povpoint(P4,povlook(yellow)));
+
+Berikutnya kita hitung perpotongan P1P2 dengan bidang.
+
+\textgreater t1=scalp(vp,P1)-dp; t2=scalp(vp,P2)-dp; P5=P1+t1/(t1-t2)*(P2-P1);
+
+\textgreater writeln(povpoint(P5,povlook(yellow)));
+
+Kita menghubungkan titik-titik dengan segmen garis.
+
+\textgreater writeln(povsegment(P1,P2,povlook(yellow)));
+
+\textgreater writeln(povsegment(P5,P3,povlook(yellow)));
+
+\textgreater writeln(povsegment(P5,P4,povlook(yellow)));
+
+Sekarang kita buat pita abu-abu, di mana bola-bola menyentuh kerucut.
+
+\textgreater pcw=povcone({[}0,0,0{]},0,{[}0,0,a{]},1.01);
+
+\textgreater pc1=povcylinder({[}0,0,P1{[}3{]}-defaultpointsize/2{]},{[}0,0,P1{[}3{]}+defaultpointsize/2{]},1);
+
+\textgreater writeln(povintersection({[}pcw,pc1{]},povlook(gray)));
+
+\textgreater pc2=povcylinder({[}0,0,P2{[}3{]}-defaultpointsize/2{]},{[}0,0,P2{[}3{]}+defaultpointsize/2{]},1);
+
+\textgreater writeln(povintersection({[}pcw,pc2{]},povlook(gray)));
+
+Mulai program Povray.
+
+\textgreater povend();
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-151.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-151.png}
+\end{figure}
+
+Untuk mendapatkan Anaglyph ini, kita perlu memasukkan semuanya ke dalam fungsi scene. Fungsi ini akan digunakan dua kali nanti.
+
+\textgreater function scene () \ldots{}
+
+\begin{verbatim}
+global a,u,dd,g,g1,defaultpointsize;
+writeln(povsphere([0,0,u[1]],dd[1],povlook(red)));
+writeln(povsphere([0,0,u[2]],dd[2],povlook(red)));
+writeln(povcone([0,0,0],0,[0,0,a],1,povlook(lightgray,1)));
+gp=g();
+pc=povcone([0,0,0],0,[0,0,a],1,"");
+vp=[gp[1],0,gp[2]]; dp=gp[3];
+writeln(povplane(vp,dp,povlook(blue,0.5),pc));
+P1=projectToLine([0,u[1]],g1()); P1=turnz([P1[1],0,P1[2]]);
+writeln(povpoint(P1,povlook(yellow)));
+P2=projectToLine([0,u[2]],g1()); P2=turnz([P2[1],0,P2[2]]);
+writeln(povpoint(P2,povlook(yellow)));
+P3=projectToLine([0,u[1]],g()); P3=[P3[1],0,P3[2]];
+writeln(povpoint(P3,povlook(yellow)));
+P4=projectToLine([0,u[2]],g()); P4=[P4[1],0,P4[2]];
+writeln(povpoint(P4,povlook(yellow)));
+t1=scalp(vp,P1)-dp; t2=scalp(vp,P2)-dp; P5=P1+t1/(t1-t2)*(P2-P1);
+writeln(povpoint(P5,povlook(yellow)));
+writeln(povsegment(P1,P2,povlook(yellow)));
+writeln(povsegment(P5,P3,povlook(yellow)));
+writeln(povsegment(P5,P4,povlook(yellow)));
+pcw=povcone([0,0,0],0,[0,0,a],1.01);
+pc1=povcylinder([0,0,P1[3]-defaultpointsize/2],[0,0,P1[3]+defaultpointsize/2],1);
+writeln(povintersection([pcw,pc1],povlook(gray)));
+pc2=povcylinder([0,0,P2[3]-defaultpointsize/2],[0,0,P2[3]+defaultpointsize/2],1);
+writeln(povintersection([pcw,pc2],povlook(gray)));
+endfunction
+\end{verbatim}
+
+Anda memerlukan kacamata merah/cyan untuk menghargai efek berikut.
+
+\textgreater povanaglyph(``scene'',zoom=11,center={[}0,0,0.5{]},height=10°,angle=140°);
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-152.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-152.png}
+\end{figure}
+
+\chapter{Contoh 8: Geometri Bumi}\label{contoh-8-geometri-bumi}
+
+Dalam buku catatan ini, kami ingin melakukan beberapa perhitungan sferis. Fungsi-fungsi tersebut terdapat dalam berkas ``spherical.e'' di folder contoh. Kami perlu memuat berkas tersebut terlebih dahulu.
+
+\textgreater load ``spherical.e'';
+
+Untuk memasukkan posisi geografis, kami menggunakan vektor dengan dua koordinat dalam radian (utara dan timur, nilai negatif untuk selatan dan barat). Berikut ini adalah koordinat untuk Kampus FMIPA UNY.
+
+\textgreater FMIPA={[}rad(-7,-46.467),rad(110,23.05){]}
+
+\begin{verbatim}
+[-0.13569,  1.92657]
+\end{verbatim}
+
+Anda dapat mencetak posisi ini dengan sposprint (cetak posisi bulat).
+
+\textgreater sposprint(FMIPA) // posisi garis lintang dan garis bujur FMIPA UNY
+
+\begin{verbatim}
+S 7°46.467' E 110°23.050'
+\end{verbatim}
+
+Mari kita tambahkan dua kota lagi, Solo dan Semarang.
+
+\textgreater Solo={[}rad(-7,-34.333),rad(110,49.683){]}; Semarang={[}rad(-6,-59.05),rad(110,24.533){]};
+
+\textgreater sposprint(Solo), sposprint(Semarang),
+
+\begin{verbatim}
+S 7°34.333' E 110°49.683'
+S 6°59.050' E 110°24.533'
+\end{verbatim}
+
+Pertama, kita hitung vektor dari satu ke yang lain pada bola ideal. Vektor ini adalah {[}arah, jarak{]} dalam radian. Untuk menghitung jarak di bumi, kita kalikan dengan jari-jari bumi pada garis lintang 7°.
+
+\textgreater br=svector(FMIPA,Solo); degprint(br{[}1{]}), br{[}2{]}*rearth(7°)-\textgreater km // perkiraan jarak FMIPA-Solo
+
+\begin{verbatim}
+65°20'26.60''
+53.8945384608
+\end{verbatim}
+
+Ini adalah perkiraan yang bagus. Rutin berikut menggunakan perkiraan yang lebih baik lagi. Pada jarak yang pendek, hasilnya hampir sama.
+
+\textgreater esdist(FMIPA,Semarang)-\textgreater'' km'' // perkiraan jarak FMIPA-Semarang
+
+\begin{verbatim}
+Commands must be separated by semicolon or comma!
+Found:  // perkiraan jarak FMIPA-Semarang (character 32)
+You can disable this in the Options menu.
+Error in:
+esdist(FMIPA,Semarang)-&gt;" km" // perkiraan jarak FMIPA-Semaran ...
+                             ^
+\end{verbatim}
+
+Ada fungsi untuk judul, yang memperhitungkan bentuk elips bumi. Sekali lagi, kami mencetak dengan cara yang canggih.
+
+\textgreater sdegprint(esdir(FMIPA,Solo))
+
+\begin{verbatim}
+     65.34°
+\end{verbatim}
+
+Sudut suatu segitiga melebihi 180° pada bola.
+
+\textgreater asum=sangle(Solo,FMIPA,Semarang)+sangle(FMIPA,Solo,Semarang)+sangle(FMIPA,Semarang,Solo); degprint(asum)
+
+\begin{verbatim}
+180°0'10.77''
+\end{verbatim}
+
+Ini dapat digunakan untuk menghitung luas segitiga. Catatan: Untuk segitiga kecil, ini tidak akurat karena kesalahan pengurangan dalam asum-pi.
+
+\textgreater(asum-pi)*rearth(48°)\^{}2-\textgreater'' km\^{}2'' // perkiraan luas segitiga FMIPA-Solo-Semarang
+
+\begin{verbatim}
+Commands must be separated by semicolon or comma!
+Found:  // perkiraan luas segitiga FMIPA-Solo-Semarang (character 32)
+You can disable this in the Options menu.
+Error in:
+(asum-pi)*rearth(48°)^2-&gt;" km^2" // perkiraan luas segitiga FM ...
+                                ^
+\end{verbatim}
+
+Ada fungsi untuk ini, yang menggunakan lintang rata-rata segitiga untuk menghitung jari-jari bumi, dan menangani kesalahan pembulatan untuk segitiga yang sangat kecil.
+
+\textgreater esarea(Solo,FMIPA,Semarang)-\textgreater'' km\^{}2'', //perkiraan yang sama dengan fungsi esarea()
+
+\begin{verbatim}
+2123.64310526 km^2
+\end{verbatim}
+
+Kita juga dapat menambahkan vektor ke posisi. Vektor berisi arah dan jarak, keduanya dalam radian. Untuk mendapatkan vektor, kita menggunakan svector. Untuk menambahkan vektor ke posisi, kita menggunakan saddvector.
+
+\textgreater v=svector(FMIPA,Solo); sposprint(saddvector(FMIPA,v)), sposprint(Solo),
+
+\begin{verbatim}
+S 7°34.333' E 110°49.683'
+S 7°34.333' E 110°49.683'
+\end{verbatim}
+
+Fungsi-fungsi ini mengasumsikan bentuk bola yang ideal. Sama halnya di bumi.
+
+\textgreater sposprint(esadd(FMIPA,esdir(FMIPA,Solo),esdist(FMIPA,Solo))), sposprint(Solo),
+
+\begin{verbatim}
+S 7°34.333' E 110°49.683'
+S 7°34.333' E 110°49.683'
+\end{verbatim}
+
+Mari kita lihat contoh yang lebih besar, Tugu Jogja dan Monas Jakarta (menggunakan Google Earth untuk mencari koordinatnya).
+
+\textgreater Tugu={[}-7.7833°,110.3661°{]}; Monas={[}-6.175°,106.811944°{]};
+
+\textgreater sposprint(Tugu), sposprint(Monas)
+
+\begin{verbatim}
+S 7°46.998' E 110°21.966'
+S 6°10.500' E 106°48.717'
+\end{verbatim}
+
+Menurut Google Earth, jaraknya adalah 429,66 km. Kami memperoleh perkiraan yang baik.
+
+\textgreater esdist(Tugu,Monas)-\textgreater'' km'' // perkiraan jarak Tugu Jogja - Monas Jakarta
+
+\begin{verbatim}
+Commands must be separated by semicolon or comma!
+Found:  // perkiraan jarak Tugu Jogja - Monas Jakarta (character 32)
+You can disable this in the Options menu.
+Error in:
+esdist(Tugu,Monas)-&gt;" km" // perkiraan jarak Tugu Jogja - Mona ...
+                         ^
+\end{verbatim}
+
+Judulnya sama dengan yang dihitung di Google Earth.
+
+\textgreater degprint(esdir(Tugu,Monas))
+
+\begin{verbatim}
+294°17'2.85''
+\end{verbatim}
+
+Akan tetapi, kita tidak lagi memperoleh posisi target yang tepat, jika kita menambahkan arah dan jarak ke posisi awal. Hal ini terjadi karena kita tidak menghitung fungsi invers secara tepat, tetapi mengambil perkiraan radius bumi di sepanjang lintasan.
+
+\textgreater sposprint(esadd(Tugu,esdir(Tugu,Monas),esdist(Tugu,Monas)))
+
+\begin{verbatim}
+S 6°10.500' E 106°48.717'
+\end{verbatim}
+
+Namun, kesalahannya tidak besar.
+
+\textgreater sposprint(Monas),
+
+\begin{verbatim}
+S 6°10.500' E 106°48.717'
+\end{verbatim}
+
+Tentu saja, kita tidak dapat berlayar dengan arah yang sama dari satu tujuan ke tujuan lain, jika kita ingin mengambil jalur terpendek. Bayangkan, Anda terbang ke arah timur laut mulai dari titik mana pun di bumi. Kemudian Anda akan berputar ke kutub utara. Lingkaran besar tidak mengikuti arah yang konstan!
+
+Perhitungan berikut menunjukkan bahwa kita jauh dari tujuan yang benar, jika kita menggunakan arah yang sama selama perjalanan kita.
+
+\textgreater dist=esdist(Tugu,Monas); hd=esdir(Tugu,Monas);
+
+Sekarang kita tambahkan 10 dikalikan sepersepuluh jaraknya, dengan memakai arah ke Monas, kita sampai di Tugu.
+
+\textgreater p=Tugu; loop 1 to 10; p=esadd(p,hd,dist/10); end;
+
+Hasilnya sangat jauh.
+
+\textgreater sposprint(p), skmprint(esdist(p,Monas))
+
+\begin{verbatim}
+S 6°11.250' E 106°48.372'
+     1.529km
+\end{verbatim}
+
+Sebagai contoh lain, mari kita ambil dua titik di bumi pada garis lintang yang sama.
+
+\textgreater P1={[}30°,10°{]}; P2={[}30°,50°{]};
+
+Lintasan terpendek dari P1 ke P2 bukanlah lingkaran lintang 30°, tetapi lintasan yang lebih pendek yang dimulai 10° lebih jauh ke utara di P1.
+
+\textgreater sdegprint(esdir(P1,P2))
+
+\begin{verbatim}
+     79.69°
+\end{verbatim}
+
+Namun, jika kita mengikuti pembacaan kompas ini, kita akan berputar ke kutub utara! Jadi kita harus menyesuaikan arah kita di sepanjang jalan. Untuk tujuan kasar, kita menyesuaikannya pada 1/10 dari total jarak.
+
+\textgreater p=P1; dist=esdist(P1,P2); \ldots{}\\
+\textgreater{} loop 1 to 10; dir=esdir(p,P2); sdegprint(dir), p=esadd(p,dir,dist/10); end;
+
+\begin{verbatim}
+     79.69°
+     81.67°
+     83.71°
+     85.78°
+     87.89°
+     90.00°
+     92.12°
+     94.22°
+     96.29°
+     98.33°
+\end{verbatim}
+
+Jaraknya tidak tepat, karena kita akan menambahkan sedikit kesalahan, jika kita mengikuti arah yang sama terlalu lama.
+
+\textgreater skmprint(esdist(p,P2))
+
+\begin{verbatim}
+     0.203km
+\end{verbatim}
+
+Kita memperoleh perkiraan yang baik, jika kita menyesuaikan arah setelah setiap 1/100 jarak total dari Tugu ke Monas.
+
+\textgreater p=Tugu; dist=esdist(Tugu,Monas); \ldots{}\\
+\textgreater{} loop 1 to 100; p=esadd(p,esdir(p,Monas),dist/100); end;
+
+\textgreater skmprint(esdist(p,Monas))
+
+\begin{verbatim}
+     0.000km
+\end{verbatim}
+
+Untuk keperluan navigasi, kita bisa mendapatkan urutan posisi GPS sepanjang lingkaran besar menuju Monas dengan fungsi navigasi.
+
+\textgreater load spherical; v=navigate(Tugu,Monas,10); \ldots{}\\
+\textgreater{} loop 1 to rows(v); sposprint(v{[}\#{]}), end;
+
+\begin{verbatim}
+S 7°46.998' E 110°21.966'
+S 7°37.422' E 110°0.573'
+S 7°27.829' E 109°39.196'
+S 7°18.219' E 109°17.834'
+S 7°8.592' E 108°56.488'
+S 6°58.948' E 108°35.157'
+S 6°49.289' E 108°13.841'
+S 6°39.614' E 107°52.539'
+S 6°29.924' E 107°31.251'
+S 6°20.219' E 107°9.977'
+S 6°10.500' E 106°48.717'
+\end{verbatim}
+
+Kita menulis suatu fungsi yang memplot bumi, dua posisi, dan posisi di antaranya.
+
+\textgreater function testplot \ldots{}
+
+\begin{verbatim}
+useglobal;
+plotearth;
+plotpos(Tugu,"Tugu Jogja"); plotpos(Monas,"Tugu Monas");
+plotposline(v);
+endfunction
+\end{verbatim}
+
+Sekarang rencanakan semuanya.
+
+\textgreater plot3d(``testplot'',angle=25, height=6,\textgreater own,\textgreater user,zoom=4):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-153.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-153.png}
+\end{figure}
+
+Atau gunakan plot3d untuk mendapatkan tampilan anaglifnya. Ini tampak sangat bagus dengan kaca mata merah/biru kehijauan.
+
+\textgreater plot3d(``testplot'',angle=25,height=6,distance=5,own=1,anaglyph=1,zoom=4):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-154.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-154.png}
+\end{figure}
+
+\chapter{Latihan}\label{latihan-1}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Gambarlah segi-n beraturan jika diketahui titik pusat O, n, dan jarak titik pusat ke titik-titik sudut segi-n tersebut (jari-jari lingkaran luar segi-n), r.
+\end{enumerate}
+
+Petunjuk:
+
+\begin{itemize}
+\item
+  Besar sudut pusat yang menghadap masing-masing sisi segi-n adalah (360/n).
+\item
+  Titik-titik sudut segi-n merupakan perpotongan lingkaran luar segi-n dan garis-garis yang melalui pusat dan saling membentuk sudut sebesar kelipatan (360/n).
+\item
+  Untuk n ganjil, pilih salah satu titik sudut adalah di atas.
+\item
+  Untuk n genap, pilih 2 titik di kanan dan kiri lurus dengan titik pusat.
+\item
+  Anda dapat menggambar segi-3, 4, 5, 6, 7, dst beraturan.
+\end{itemize}
+
+\textgreater load geometry
+
+\begin{verbatim}
+Numerical and symbolic geometry.
+\end{verbatim}
+
+\textgreater setPlotRange(-4,4,-4,4);
+
+\textgreater O={[}0,0{]}; plotPoint(O,``O'');
+
+\textgreater A={[}-3,-1{]}; plotPoint(A,``A'');
+
+\textgreater B={[}3,-1{]}; plotPoint(B,``B'');
+
+\textgreater C={[}0,2*3\^{}0.5-1{]}; plotPoint(A,``A'');
+
+\textgreater plotSegment(A,B,``c'');
+
+\textgreater plotSegment(B,C,``a'');
+
+\textgreater plotSegment(A,C,``b'');
+
+\textgreater aspect(1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-155.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-155.png}
+\end{figure}
+
+\textgreater c=circleThrough(A,B,C):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-156.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-156.png}
+\end{figure}
+
+\textgreater R=getCircleRadius(c);
+
+\textgreater O=getCircleCenter(c)
+
+\begin{verbatim}
+[0,  -0.566987]
+\end{verbatim}
+
+\textgreater plotCircle(c,``Lingkaran luar segitiga''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-157.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-157.png}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Gambarlah suatu parabola yang melalui 3 titik yang diketahui.
+\end{enumerate}
+
+Petunjuk:
+
+\begin{itemize}
+\item
+  Misalkan persamaan parabolanya y= ax\^{}2+bx+c.
+\item
+  Substitusikan koordinat titik-titik yang diketahui ke persamaan tersebut.
+\item
+  Selesaikan SPL yang terbentuk untuk mendapatkan nilai-nilai a, b, c.
+\end{itemize}
+
+\textgreater setPlotRange(5);
+
+\textgreater G={[}-4,0{]}; H={[}3,0{]}; I={[}0,2{]};
+
+\textgreater plotPoint(G,``G'');
+
+\textgreater plotPoint(H,``H'');
+
+\textgreater plotPoint(I,``I''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-158.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-158.png}
+\end{figure}
+
+\textgreater sol \&= solve({[}16*a+8*b=-c, 16*a-8*b=-c,c=2{]},{[}a,b,c{]})
+
+\begin{verbatim}
+                              1
+                      [[a = - -, b = 0, c = 2]]
+                              8
+\end{verbatim}
+
+\textgreater function y\&=-1/8*(x\^{}2)-0*x+2
+
+\begin{verbatim}
+                                     2
+                                    x
+                                2 - --
+                                    8
+\end{verbatim}
+
+\textgreater plot2d(``-1/8*(x\^{}2)-0*x+2'',-6,6);\ldots{}\\
+\textgreater{} plotPoint(G,``G''); plotPoint(H,``H''); plotPoint(I,``I''):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-159.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-159.png}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  Gambarlah suatu segi-4 yang diketahui keempat titik sudutnya, misalnya A, B, C, D.
+
+  \begin{itemize}
+  \item
+    Tentukan apakah segi-4 tersebut merupakan segi-4 garis singgung (sisinya-sisintya merupakan garis singgung lingkaran yang sama yakni lingkaran dalam segi-4 tersebut).
+  \item
+    Suatu segi-4 merupakan segi-4 garis singgung apabila keempat garis bagi sudutnya bertemu di satu titik.
+  \item
+    Jika segi-4 tersebut merupakan segi-4 garis singgung, gambar lingkaran dalamnya.
+  \item
+    Tunjukkan bahwa syarat suatu segi-4 merupakan segi-4 garis singgung apabila hasil kali panjang sisi-sisi yang berhadapan sama.
+  \end{itemize}
+\end{enumerate}
+
+\textgreater setPlotRange(7);
+
+\textgreater A={[}-5,-5{]}; B={[}5,-5{]}; C={[}5,5{]}; D={[}-5,5{]};
+
+\textgreater plotPoint(A,``A''); plotPoint(B,``B''); plotPoint(C,``C''); plotPoint(D,``D'');
+
+\textgreater plotSegment(A,B,``\,``); plotSegment(B,C,''``); plotSegment(C,D,''``); plotSegment(D,A,''\,``):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-160.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-160.png}
+\end{figure}
+
+\textgreater b=angleBisector(A,B,C);
+
+\textgreater a=angleBisector(B,C,D);
+
+\textgreater P=lineIntersection(b,a)
+
+\begin{verbatim}
+[0,  0]
+\end{verbatim}
+
+\textgreater color(5); plotLine(l); plotLine(a); color(b):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-161.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-161.png}
+\end{figure}
+
+\textgreater r=norm(P-projectToLine(P,lineThrough(A,B)))
+
+\begin{verbatim}
+5
+\end{verbatim}
+
+\textgreater plotCircle(circleWithCenter(P,r),``Lingkaran dalam segi4 ABC''):
+
+\begin{verbatim}
+Argument for textcolor must be integer!
+plotLabel:
+    textcolor(oc);
+Try "trace errors" to inspect local variables after errors.
+plotCircle:
+    plotLabel(name,getCircleCenter(c)+v/h*c[3],v,d);
+\end{verbatim}
+
+\textgreater AB=norm(A-B)
+
+\begin{verbatim}
+10
+\end{verbatim}
+
+\textgreater BC=norm(B-C)
+
+\begin{verbatim}
+10
+\end{verbatim}
+
+\textgreater CD=norm(C-D)
+
+\begin{verbatim}
+10
+\end{verbatim}
+
+\textgreater DA=norm(D-A)
+
+\begin{verbatim}
+10
+\end{verbatim}
+
+\textgreater AB.CD
+
+\begin{verbatim}
+100
+\end{verbatim}
+
+\textgreater DA.BC
+
+\begin{verbatim}
+100
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Gambarlah suatu ellips jika diketahui kedua titik fokusnya, misalnya P dan Q. Ingat ellips dengan fokus P dan Q adalah tempat kedudukan titik-titik yang jumlah jarak ke P dan ke Q selalu sama (konstan).
+\end{enumerate}
+
+\textgreater P={[}-1,2{]}; Q={[}1,2{]};
+
+\textgreater function d1(x,y):=sqrt((x-P{[}1{]})\textsuperscript{2+(y-P{[}2{]})}2)
+
+\textgreater function d2(x,y):=d1(x,y)+sqrt((x-Q{[}1{]})\textsuperscript{2+(y-Q{[}2{]})}2)
+
+\textgreater fcontour(``d2'',xmin=-2,xmax=-2,ymin=0,ymax=4,hue=1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-162.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-162.png}
+\end{figure}
+
+\textgreater plot3d(``d2'',xmin=-2,xmax=2,ymin=0,ymax=4,hue=1):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-163.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-163.png}
+\end{figure}
+
+\textgreater plot2d(``abs(x+1)+abs(x-1)'',xmin=-3,xmax=3):
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{images/EMT4Geometry._Hikmatul Utami_23030630082-164.png}}
+\caption{images/EMT4Geometry.\_Hikmatul\%20Utami\_23030630082-164.png}
+\end{figure}
+
+\backmatter
+\end{document}
